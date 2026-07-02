@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Noto+Sans+TC:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#F6F5F1;color:#1B1D1A;font-family:"Noto Sans TC",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+::selection{background:#2E5B4F;color:#fff}
+a{color:inherit}
+image-slot{display:block}
+@media(max-width:820px){.nav-links{display:none!important}}
+</style>
+</helmet>
+<div style="width:100%;overflow-x:hidden">
+
+<header style="position:sticky;top:0;z-index:50;background:rgba(246,245,241,0.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(0,0,0,0.08)">
+  <div style="max-width:1180px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px">
+    <a href="#top" style="display:flex;flex-direction:column;gap:2px;text-decoration:none">
+      <span style="font-family:Newsreader,serif;font-size:19px;font-weight:600;letter-spacing:0.2px">{{ t.brandName }}</span>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1.5px;color:#6B6E68;text-transform:uppercase">{{ t.brandRole }}</span>
+    </a>
+    <nav style="display:flex;align-items:center;gap:6px">
+      <div class="nav-links" style="display:flex;align-items:center;gap:2px;margin-right:8px">
+        <sc-for list="{{ t.nav }}" as="item" hint-placeholder-count="8">
+          <a href="#{{ item.id }}" style="font-size:13.5px;color:#3A3D38;text-decoration:none;padding:7px 11px;border-radius:7px" style-hover="background:rgba(46,91,79,0.09);color:#2E5B4F">{{ item.label }}</a>
+        </sc-for>
+      </div>
+      <button onClick="{{ toggle }}" style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1px;border:1px solid rgba(0,0,0,0.18);background:transparent;color:#1B1D1A;padding:8px 13px;border-radius:8px;cursor:pointer" style-hover="border-color:#2E5B4F;color:#2E5B4F">{{ t.toggleLabel }}</button>
+    </nav>
+  </div>
+</header>
+
+<main id="top" style="max-width:1180px;margin:0 auto;padding:0 32px">
+
+  <!-- HERO -->
+  <section id="about" style="padding:78px 0 64px;display:grid;grid-template-columns:1.35fr 0.85fr;gap:56px;align-items:center">
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:3px;color:#2E5B4F;text-transform:uppercase;margin-bottom:22px">{{ t.heroKicker }}</div>
+      <h1 style="font-family:Newsreader,serif;font-weight:500;font-size:72px;line-height:0.98;margin:0;letter-spacing:-1px">{{ t.nameEn }}</h1>
+      <div style="font-size:23px;font-weight:500;margin-top:10px;color:#2B2E29">{{ t.nameZh }}</div>
+      <div style="font-size:16px;color:#2E5B4F;font-weight:500;margin-top:14px;letter-spacing:0.3px">{{ t.role }}</div>
+      <p style="font-size:16.5px;line-height:1.75;color:#4A4D47;margin:22px 0 30px;max-width:560px;text-wrap:pretty">{{ t.tagline }}</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px">
+        <a href="{{ t.mailHref }}" style="display:inline-flex;align-items:center;gap:8px;font-size:14px;text-decoration:none;background:#1B1D1A;color:#F6F5F1;padding:11px 17px;border-radius:9px" style-hover="background:#2E5B4F">✉ {{ t.email }}</a>
+        <sc-for list="{{ t.phones }}" as="p" hint-placeholder-count="2">
+          <span style="display:inline-flex;align-items:center;gap:8px;font-size:14px;background:#fff;border:1px solid rgba(0,0,0,0.09);padding:11px 17px;border-radius:9px;color:#3A3D38">☎ {{ p }}</span>
+        </sc-for>
+        <span style="display:inline-flex;align-items:center;gap:8px;font-size:14px;background:#fff;border:1px solid rgba(0,0,0,0.09);padding:11px 17px;border-radius:9px;color:#3A3D38">◎ {{ t.location }}</span>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="aspect-ratio:4/5;width:100%;border-radius:16px;overflow:hidden;background:#EAEDE6;border:1px solid rgba(0,0,0,0.07)">
+        <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="portrait" shape="rounded" radius="16" placeholder="拖放照片 / Drop photo" hint-size="100%,100%" style="width:100%;height:100%"></x-import>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(0,0,0,0.09);border:1px solid rgba(0,0,0,0.09);border-radius:14px;overflow:hidden;margin-bottom:20px">
+    <sc-for list="{{ t.stats }}" as="s" hint-placeholder-count="4">
+      <div style="background:#F6F5F1;padding:26px 22px">
+        <div style="font-family:Newsreader,serif;font-weight:500;font-size:44px;line-height:1;color:#2E5B4F">{{ s.n }}<span style="font-size:18px;color:#6B6E68;margin-left:3px">{{ s.u }}</span></div>
+        <div style="font-size:13.5px;color:#5A5D57;margin-top:8px">{{ s.l }}</div>
+      </div>
+    </sc-for>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" style="padding:72px 0 20px">
+    <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:34px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2E5B4F">01</span>
+      <h2 style="font-family:Newsreader,serif;font-weight:500;font-size:34px;margin:0;letter-spacing:-0.3px">{{ t.tSkills }}</h2>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#9A9D96;text-transform:uppercase">{{ t.tSkillsEn }}</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+      <sc-for list="{{ t.skills }}" as="sk" hint-placeholder-count="6">
+        <div style="background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:14px;padding:24px 22px 20px">
+          <div style="font-size:17px;font-weight:700;color:#1B1D1A;margin-bottom:9px">{{ sk.name }}</div>
+          <p style="font-size:14px;line-height:1.7;color:#5A5D57;margin:0 0 16px">{{ sk.desc }}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:6px">
+            <sc-for list="{{ sk.tags }}" as="tag" hint-placeholder-count="3">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#2E5B4F;background:#EAEDE6;padding:4px 9px;border-radius:6px">{{ tag }}</span>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="margin-top:20px;background:#EAEDE6;border-radius:14px;padding:22px 24px;display:flex;flex-wrap:wrap;align-items:center;gap:18px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#2E5B4F;text-transform:uppercase">{{ t.certLabel }}</span>
+      <sc-for list="{{ t.certs }}" as="c" hint-placeholder-count="2">
+        <span style="font-size:14px;color:#3A3D38">✓ {{ c }}</span>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section id="timeline" style="padding:72px 0 20px">
+    <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:34px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2E5B4F">02</span>
+      <h2 style="font-family:Newsreader,serif;font-weight:500;font-size:34px;margin:0;letter-spacing:-0.3px">{{ t.tTimeline }}</h2>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#9A9D96;text-transform:uppercase">{{ t.tTimelineEn }}</span>
+    </div>
+    <div style="display:flex;flex-direction:column">
+      <sc-for list="{{ t.timeline }}" as="job" hint-placeholder-count="5">
+        <div style="display:grid;grid-template-columns:190px 1fr;gap:32px;padding:26px 0;border-top:1px solid rgba(0,0,0,0.1)">
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#1B1D1A;font-weight:500">{{ job.years }}</div>
+            <div style="font-size:12.5px;color:#8A8D86;margin-top:4px">{{ job.dur }}</div>
+          </div>
+          <div>
+            <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 14px;margin-bottom:12px">
+              <span style="font-size:19px;font-weight:700">{{ job.org }}</span>
+              <span style="font-size:14px;color:#2E5B4F;font-weight:500">{{ job.role }}</span>
+            </div>
+            <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px">
+              <sc-for list="{{ job.points }}" as="pt" hint-placeholder-count="3">
+                <li style="font-size:14.5px;line-height:1.65;color:#4A4D47">{{ pt }}</li>
+              </sc-for>
+            </ul>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" style="padding:72px 0 20px">
+    <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:34px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2E5B4F">03</span>
+      <h2 style="font-family:Newsreader,serif;font-weight:500;font-size:34px;margin:0;letter-spacing:-0.3px">{{ t.tProjects }}</h2>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#9A9D96;text-transform:uppercase">{{ t.tProjectsEn }}</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px">
+      <sc-for list="{{ t.projects }}" as="pr" hint-placeholder-count="4">
+        <div style="background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:14px;padding:26px 24px;border-left:3px solid #2E5B4F">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:1px;color:#2E5B4F;text-transform:uppercase;background:#EAEDE6;padding:4px 9px;border-radius:6px">{{ pr.badge }}</span>
+          <div style="font-size:18px;font-weight:700;margin:16px 0 9px">{{ pr.title }}</div>
+          <p style="font-size:14.5px;line-height:1.7;color:#5A5D57;margin:0">{{ pr.desc }}</p>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- AI / VIBE CODING -->
+  <sc-if value="{{ showAi }}" hint-placeholder-val="{{ true }}">
+  <section id="ai" style="padding:72px 0 20px">
+    <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:14px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2E5B4F">04</span>
+      <h2 style="font-family:Newsreader,serif;font-weight:500;font-size:34px;margin:0;letter-spacing:-0.3px">{{ t.tAi }}</h2>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#9A9D96;text-transform:uppercase">{{ t.tAiEn }}</span>
+    </div>
+    <p style="font-size:15.5px;line-height:1.75;color:#4A4D47;margin:0 0 30px;max-width:640px">{{ t.aiIntro }}</p>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px">
+      <sc-for list="{{ t.aiTools }}" as="ai" hint-placeholder-count="4">
+        <div style="background:#1B1D1A;color:#EDECE6;border-radius:14px;padding:26px 24px">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8FB5AA;margin-bottom:12px">{{ ai.tag }}</div>
+          <div style="font-size:18px;font-weight:700;color:#fff;margin-bottom:9px">{{ ai.title }}</div>
+          <p style="font-size:14px;line-height:1.7;color:#B8B9B3;margin:0">{{ ai.desc }}</p>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+  </sc-if>
+
+  <!-- PUBLICATIONS -->
+  <section id="pubs" style="padding:72px 0 20px">
+    <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:14px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2E5B4F">05</span>
+      <h2 style="font-family:Newsreader,serif;font-weight:500;font-size:34px;margin:0;letter-spacing:-0.3px">{{ t.tPubs }}</h2>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#9A9D96;text-transform:uppercase">{{ t.tPubsEn }}</span>
+    </div>
+    <p style="font-size:15.5px;line-height:1.75;color:#4A4D47;margin:0 0 26px;max-width:640px">{{ t.pubsIntro }}</p>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:34px">
+      <sc-for list="{{ t.themes }}" as="th" hint-placeholder-count="2">
+        <div style="background:#EAEDE6;border-radius:14px;padding:24px 24px">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:8px">
+            <span style="font-size:17px;font-weight:700;color:#1B1D1A">{{ th.title }}</span>
+            <span style="font-family:Newsreader,serif;font-size:30px;font-weight:500;color:#2E5B4F;line-height:1">{{ th.count }}</span>
+          </div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6B6E68;margin-bottom:10px">{{ th.period }}</div>
+          <p style="font-size:14px;line-height:1.7;color:#4A4D47;margin:0">{{ th.desc }}</p>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display:flex;flex-direction:column">
+      <sc-for list="{{ t.pubs }}" as="pub" hint-placeholder-count="8">
+        <div style="display:grid;grid-template-columns:34px 1fr;gap:16px;padding:18px 0;border-top:1px solid rgba(0,0,0,0.09)">
+          <span style="font-family:Newsreader,serif;font-size:18px;color:#B0B3AC">{{ pub.i }}</span>
+          <div>
+            <div style="font-size:15px;font-weight:500;line-height:1.6;color:#1B1D1A;margin-bottom:5px">{{ pub.summary }}</div>
+            <div style="font-size:12.5px;color:#7A7D76;line-height:1.55">{{ pub.cite }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education" style="padding:72px 0 20px">
+    <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:34px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2E5B4F">06</span>
+      <h2 style="font-family:Newsreader,serif;font-weight:500;font-size:34px;margin:0;letter-spacing:-0.3px">{{ t.tEdu }}</h2>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#9A9D96;text-transform:uppercase">{{ t.tEduEn }}</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+      <sc-for list="{{ t.education }}" as="ed" hint-placeholder-count="3">
+        <div style="background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:14px;padding:24px 22px">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#2E5B4F;margin-bottom:10px">{{ ed.degree }}</div>
+          <div style="font-size:17px;font-weight:700;line-height:1.4">{{ ed.school }}</div>
+          <div style="font-size:14px;color:#5A5D57;margin-top:6px">{{ ed.field }}</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#9A9D96;margin-top:12px">{{ ed.year }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- VALUE -->
+  <section id="value" style="padding:72px 0 40px">
+    <div style="background:#1B1D1A;border-radius:20px;padding:52px 48px;color:#EDECE6">
+      <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:30px">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#8FB5AA">07</span>
+        <h2 style="font-family:Newsreader,serif;font-weight:500;font-size:34px;margin:0;color:#fff;letter-spacing:-0.3px">{{ t.tValue }}</h2>
+      </div>
+      <p style="font-size:17px;line-height:1.7;color:#C9CAC4;margin:0 0 34px;max-width:660px">{{ t.valueIntro }}</p>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:28px 40px">
+        <sc-for list="{{ t.contributions }}" as="v" hint-placeholder-count="4">
+          <div style="display:flex;gap:16px;align-items:flex-start">
+            <span style="font-family:Newsreader,serif;font-size:26px;color:#8FB5AA;line-height:1;flex:none">{{ v.n }}</span>
+            <div>
+              <div style="font-size:17px;font-weight:700;color:#fff;margin-bottom:7px">{{ v.title }}</div>
+              <p style="font-size:14.5px;line-height:1.7;color:#B8B9B3;margin:0">{{ v.desc }}</p>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer style="border-top:1px solid rgba(0,0,0,0.09);margin-top:20px">
+  <div style="max-width:1180px;margin:0 auto;padding:36px 32px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;align-items:center">
+    <div>
+      <div style="font-family:Newsreader,serif;font-size:20px;font-weight:600">{{ t.nameEn }} · {{ t.nameZh }}</div>
+      <div style="font-size:13px;color:#7A7D76;margin-top:5px">{{ t.role }}</div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:22px;font-size:14px;color:#4A4D47">
+      <a href="{{ t.mailHref }}" style="text-decoration:none;color:#4A4D47" style-hover="color:#2E5B4F">{{ t.email }}</a>
+      <span>{{ t.phones.0 }}</span>
+    </div>
+  </div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1180,&quot;height&quot;:760},&quot;defaultLang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;zh&quot;,&quot;en&quot;],&quot;default&quot;:&quot;zh&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;顯示設定&quot;},&quot;showAiSection&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;顯示設定&quot;},&quot;showPhones&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;顯示設定&quot;}}">
+const DATA = {
+  zh: {
+    toggleLabel: "EN",
+    brandName: "夏可強",
+    brandRole: "Biotech R&D",
+    heroKicker: "個人履歷 / Resume",
+    nameEn: "Shawn Hsia",
+    nameZh: "夏可強",
+    role: "生技研發 × 檢驗實驗室 × 法規事務",
+    tagline: "18 年橫跨病原基因體、益生菌研發與國際法規的實務經驗。擅長把檢驗實驗室從 0 建置到通過國際認證，並將科學數據轉化為可上市的產品與法規文件。",
+    email: "hsiakc@outlook.com",
+    mailHref: "mailto:hsiakc@outlook.com",
+    phones: ["+886 921 935 798", "+86 156 6537 7582"],
+    location: "新北市三峽區 · Taiwan",
+    photoHint: "拖放照片 / Drop photo",
+    nav: [
+      { id: "about", label: "簡介" },
+      { id: "skills", label: "核心技能" },
+      { id: "timeline", label: "職涯歷程" },
+      { id: "projects", label: "專案成果" },
+      { id: "ai", label: "AI 應用" },
+      { id: "pubs", label: "發表論文" },
+      { id: "education", label: "學歷" },
+      { id: "value", label: "我的價值" }
+    ],
+    stats: [
+      { n: "18", u: "年", l: "產業資歷" },
+      { n: "17", u: "篇", l: "發表論文" },
+      { n: "5", u: "家", l: "企業與機構" },
+      { n: "2", u: "項", l: "FDA GRAS 完成" }
+    ],
+    tSkills: "核心技能", tSkillsEn: "Core Skills",
+    skills: [
+      { name: "實驗室與品質系統管理", desc: "建立、維持與稽核檢驗實驗室；熟悉品質系統從導入到認證的完整生命週期。", tags: ["ISO 17025", "CNAS-CL01", "TAF 認證"] },
+      { name: "法規事務與國際申請", desc: "主導食品原料上市法規申請，橫跨美國與中國兩地市場。", tags: ["FDA GRAS", "NDIN", "NSF", "中國新食品原料"] },
+      { name: "分子生物與微生物鑑定", desc: "從菌株鑑定到全基因體分析的完整檢驗與判讀能力。", tags: ["qPCR", "digital PCR", "NGS 定序", "PFGE"] },
+      { name: "益生菌研發與功效驗證", desc: "菌株安全性、功效性評估與臨床試驗計畫設計及執行。", tags: ["菌株鑑定", "安全性評估", "臨床試驗"] },
+      { name: "藥典規範檢驗", desc: "熟悉多國藥典之抗菌、防腐、無菌與培養基確效試驗。", tags: ["USP 51/61/62/71", "AATCC 100", "JIS 1902"] },
+      { name: "數據分析與科學撰寫", desc: "全基因定序資料判讀，並撰寫專利、文獻與法規文件。", tags: ["Vector NTI", "Geneious Prime", "專利撰寫"] }
+    ],
+    certLabel: "專業證照",
+    certs: ["ISO 17025 TAF-QM107059-C-39", "TAF 測試實驗室主管訓練合格 TAF-TH107011-C-04"],
+    tTimeline: "職涯歷程", tTimelineEn: "Experience",
+    timeline: [
+      { years: "2017 – 現在", dur: "8.5 年", org: "豐華生技", role: "研發副理 / 行銷副理", points: [
+        "FDA GRAS / NDIN 申請專案負責人，完成 GRN No.1130、No.1235。",
+        "主導中國新食品原料與嬰幼兒可使用菌株名單申請、NSF 產品認證。",
+        "菌株全基因定序資料分析、益生菌功效研發與臨床試驗計畫書撰寫。",
+        "建立、規劃並管理個人化醫療與大陸檢驗實驗室（CNAS-CL01 / ISO 17025）。"
+      ] },
+      { years: "2013 – 2017", dur: "4 年", org: "台美檢驗", role: "資深分析師 / 專案經理", points: [
+        "研發中心計畫專案經理，負責跨部門協調與計畫進度追蹤、報告撰寫。",
+        "分生實驗室 ISO 17025（TAF、TFDA）認證申請與維持。",
+        "TFDA 乳酸菌鑑定、新北市 GMO 檢驗、農試所食媒分子檢驗等標案。",
+        "熟悉抗菌 / 防腐 / 無菌試驗與 digital PCR 基改定量。"
+      ] },
+      { years: "2012 – 2013", dur: "9 個月", org: "有勁生技", role: "業務", points: [
+        "全基因定序相關服務之推廣與結果解說。",
+        "客戶訂單管理與進度追蹤。"
+      ] },
+      { years: "2011 – 2012", dur: "1 年", org: "基亞生技", role: "產品專員", points: [
+        "血液篩檢全自動化儀器的安裝、校正、教育訓練與售後服務。",
+        "服務地區橫跨兩岸：北京、上海、安徽、四川、長春、天津、瀋陽。"
+      ] },
+      { years: "2007 – 2011", dur: "4 年", org: "疾病管制局 研究檢驗中心", role: "國防訓儲研究助理", points: [
+        "以全基因體技術發展病原真菌先進檢驗及流病分型（多年期計畫）。",
+        "建立淋菌、砂眼披衣菌檢驗與分型方法，及快速檢驗試劑 POC 開發。",
+        "非典型肺炎、性病匿名篩檢與登革熱之血清與分子檢驗。"
+      ] }
+    ],
+    tProjects: "重點專案成果", tProjectsEn: "Key Projects",
+    projects: [
+      { badge: "美國 · GRAS", title: "FDA GRAS 認證申請", desc: "主導完成 GRN No.1130 與 No.1235，取得益生菌於美國市場「一般認為安全」的合法上市地位。" },
+      { badge: "中國 · 新食品原料", title: "嬰幼兒可使用菌株名單", desc: "完成 MP108、CP-9 於中國嬰幼兒可使用菌株名單的列名，打開嬰幼兒食品應用市場。" },
+      { badge: "國際認證", title: "NSF 產品認證", desc: "主導產品通過 NSF 國際認證，提升產品於國際通路的信任與競爭力。" },
+      { badge: "實驗室建置", title: "檢驗實驗室 0→1 建置", desc: "於台灣與大陸建立、規劃並管理個人化醫療與益生菌檢驗實驗室，並通過 ISO 17025 認證。" }
+    ],
+    tAi: "AI 與數位工具應用", tAiEn: "AI & Vibe Coding",
+    aiIntro: "近年主動將 AI 與 vibe coding 導入日常工作與個人專案，把重複性的文件、資料與溝通流程自動化，提升研發與法規團隊的產出效率。",
+    aiTools: [
+      { tag: "DOCUMENT SYSTEM", title: "文件管理系統", desc: "以 AI 輔助開發的內部文件管理與檢索系統，加速法規與研發文件的整理、分類與查找。" },
+      { tag: "SPEECH-TO-TEXT", title: "語音轉文字工具", desc: "將會議與訪談語音自動轉為逐字稿，大幅縮短紀錄與知識整理的時間成本。" },
+      { tag: "WEB", title: "靜態網頁設計", desc: "運用 vibe coding 快速打造產品與個人形象網頁（如本網站），並發佈於 GitHub Pages。" },
+      { tag: "WORKFLOW", title: "AI 輔助研發流程", desc: "將大型語言模型導入文獻回顧、數據整理與草稿撰寫，縮短專案週期並提升品質。" }
+    ],
+    tPubs: "發表論文", tPubsEn: "Publications",
+    pubsIntro: "共發表 17 篇同儕審查論文，橫跨兩大研究主題。以下每篇均附一句白話摘要，方便快速掌握研究內容。",
+    themes: [
+      { title: "益生菌與後生元", count: "10", period: "2021 – 2026", desc: "涵蓋菌株安全毒理、嬰幼兒配方臨床、代謝、免疫與認知功效等應用研究。" },
+      { title: "病原菌基因體與抗藥性", count: "7", period: "2007 – 2011", desc: "聚焦不動桿菌、淋病雙球菌等多重抗藥性菌株之基因體定序與快速檢驗開發。" }
+    ],
+    pubs: [
+      { i: "01", summary: "評估益生菌 L. salivarius AP-32 的安全性與毒理（活體與體外實驗）。", cite: "Chin YH, et al. Food Chem Toxicol, 2026. 210: 115970." },
+      { i: "02", summary: "三株乳酸菌發酵所得後生元粉末的安全性評估與應用潛力。", cite: "Li CM, et al. Fermentation, 2025. 11(11): 615." },
+      { i: "03", summary: "含 CP-9 或 AP-32 的嬰兒配方之安全性與腸道菌調節；四個月嬰兒臨床。", cite: "Shen SP, et al. BMC Pediatr, 2024. 24(1): 840." },
+      { i: "04", summary: "三株益生菌改善肝功能與尿酸代謝的先導臨床試驗。", cite: "Lin JH, et al. PLoS One, 2024. 19(7): e0307181." },
+      { i: "05", summary: "LY-66 與 PL-02 提升爆發力與耐力的隨機雙盲臨床試驗。", cite: "Lee MC, et al. Nutrients, 2024. 16(12)." },
+      { i: "06", summary: "益生菌配方於糖尿病腎病變小鼠改善腎功能、血糖與血壓。", cite: "Kuo YW, et al. Nutrients, 2023. 15(12)." },
+      { i: "07", summary: "益生菌對阿茲海默症患者 BDNF、發炎、氧化壓力與認知的 12 週隨機雙盲試驗。", cite: "Hsu YC, et al. Nutrients, 2024. 16(1)." },
+      { i: "08", summary: "AP-32 與 CP-9 單獨使用於健康嬰兒之安全性三臂隨機雙盲試驗。", cite: "Chen JF, et al. Nutrients, 2023. 15(15)." },
+      { i: "09", summary: "四株益生菌的安全性評估與益生潛力比較。", cite: "Chen JF, et al. Nutrients, 2024. 16(1)." },
+      { i: "10", summary: "活菌與熱滅活益生菌透過提升口腔黏膜 IgA 改善口腔免疫。", cite: "Lin WY, et al. Curr Microbiol, 2021. 78(9): 3541-3549." },
+      { i: "11", summary: "多重抗藥性不動桿菌 TCDC-AB0715 之全基因體定序。", cite: "Chen CC, et al. J Bacteriol, 2011. 193(9): 2361-2." },
+      { i: "12", summary: "多重抗藥性淋病雙球菌 TCDC-NG08107 之草圖基因體定序。", cite: "Chen CC, et al. J Bacteriol, 2011. 193(7): 1788-9." },
+      { i: "13", summary: "台灣不動桿菌屬碳青黴烯抗藥基因差異之比較。", cite: "Lin YC, et al. Int J Antimicrob Agents, 2010. 35(5): 439-43." },
+      { i: "14", summary: "台灣不動桿菌臨床分離株多重抗藥性之遺傳基礎。", cite: "Lin YC, et al. Antimicrob Agents Chemother, 2010. 54(5): 2078-84." },
+      { i: "15", summary: "以即時 PCR 偵測 gyrA 突變鑑別不動桿菌 ciprofloxacin 感受性。", cite: "Sheng WH, et al. Mol Cell Probes, 2009. 23(3-4): 154-6." },
+      { i: "16", summary: "以微球陣列快速鑑定不動桿菌屬。", cite: "Lin YC, et al. J Clin Microbiol, 2008. 46(2): 612-7." },
+      { i: "17", summary: "由噬菌體展示抗體庫篩選並鑑定脂解酶抗體酶。", cite: "Leong MK, et al. Biochem Biophys Res Commun, 2007. 361(3): 567-73." }
+    ],
+    tEdu: "教育背景", tEduEn: "Education",
+    education: [
+      { degree: "碩士 / M.Sc.", school: "國立東華大學", field: "生物技術研究所", year: "2006" },
+      { degree: "學士 / B.Sc.", school: "國立中興大學", field: "植物病理學系", year: "2003" },
+      { degree: "高中", school: "台北市立松山高級中學", field: "", year: "" }
+    ],
+    tValue: "我能帶來的價值",
+    valueIntro: "橫跨實驗室、研發、法規與行銷的完整經歷，讓我能在不同角色間快速接軌，並將科學能力轉化為組織的實質成果。",
+    contributions: [
+      { n: "01", title: "接軌並優化實驗室運營", desc: "能快速接手並優化檢驗實驗室的日常運營與品質系統，讓團隊穩定運轉。" },
+      { n: "02", title: "維護品質與國際認證", desc: "具備 ISO 17025 / TAF 認證訓練與多國藥典檢驗經驗，確保品質系統合規。" },
+      { n: "03", title: "多元鑑定與研發能力", desc: "從全基因、分子鑑定到高階數據分析，全面支援研發與問題解決。" },
+      { n: "04", title: "跨領域問題解決", desc: "橫跨實驗室、研發、法規認證與行銷的豐富經驗，能沉著應對各種挑戰。" }
+    ]
+  },
+  en: {
+    toggleLabel: "中",
+    brandName: "Shawn Hsia",
+    brandRole: "Biotech R&D",
+    heroKicker: "個人履歷 / Resume",
+    nameEn: "Shawn Hsia",
+    nameZh: "夏可強 · Ke-Chiang Hsia",
+    role: "Biotech R&D × Testing Lab × Regulatory Affairs",
+    tagline: "18 years of hands-on experience spanning pathogen genomics, probiotic R&D, and international regulatory affairs. I build testing labs from zero to international accreditation and turn scientific data into market-ready products and regulatory dossiers.",
+    email: "hsiakc@outlook.com",
+    mailHref: "mailto:hsiakc@outlook.com",
+    phones: ["+886 921 935 798", "+86 156 6537 7582"],
+    location: "New Taipei City · Taiwan",
+    photoHint: "拖放照片 / Drop photo",
+    nav: [
+      { id: "about", label: "About" },
+      { id: "skills", label: "Skills" },
+      { id: "timeline", label: "Experience" },
+      { id: "projects", label: "Projects" },
+      { id: "ai", label: "AI" },
+      { id: "pubs", label: "Publications" },
+      { id: "education", label: "Education" },
+      { id: "value", label: "Value" }
+    ],
+    stats: [
+      { n: "18", u: "yr", l: "Industry experience" },
+      { n: "17", u: "", l: "Publications" },
+      { n: "5", u: "", l: "Companies & institutes" },
+      { n: "2", u: "", l: "FDA GRAS completed" }
+    ],
+    tSkills: "Core Skills", tSkillsEn: "核心技能",
+    skills: [
+      { name: "Lab & Quality System Management", desc: "Building, maintaining and auditing testing labs across the full quality-system lifecycle from setup to accreditation.", tags: ["ISO 17025", "CNAS-CL01", "TAF"] },
+      { name: "Regulatory Affairs", desc: "Leading food-ingredient market-entry filings across both the US and China.", tags: ["FDA GRAS", "NDIN", "NSF", "China Novel Food"] },
+      { name: "Molecular & Microbial ID", desc: "Full testing capability from strain identification to whole-genome analysis and interpretation.", tags: ["qPCR", "digital PCR", "NGS", "PFGE"] },
+      { name: "Probiotic R&D & Efficacy", desc: "Strain safety, efficacy assessment and clinical-trial protocol design and execution.", tags: ["Strain ID", "Safety", "Clinical trials"] },
+      { name: "Pharmacopeia Testing", desc: "Antimicrobial, preservative, sterility and media-suitability testing per multiple pharmacopeias.", tags: ["USP 51/61/62/71", "AATCC 100", "JIS 1902"] },
+      { name: "Data Analysis & Sci. Writing", desc: "Whole-genome data interpretation plus patent, literature and regulatory writing.", tags: ["Vector NTI", "Geneious Prime", "Patents"] }
+    ],
+    certLabel: "Certifications",
+    certs: ["ISO 17025 TAF-QM107059-C-39", "TAF Testing Lab Supervisor Training TAF-TH107011-C-04"],
+    tTimeline: "Experience", tTimelineEn: "職涯歷程",
+    timeline: [
+      { years: "2017 – Present", dur: "8.5 yrs", org: "GenMont Biotech", role: "Deputy Manager, R&D / Marketing", points: [
+        "Lead for FDA GRAS / NDIN filings — completed GRN No.1130 and No.1235.",
+        "Drove China novel-food & infant-use strain listings and NSF product certification.",
+        "Whole-genome data analysis, probiotic efficacy R&D and clinical-protocol writing.",
+        "Built and managed personalized-medicine and China testing labs (CNAS-CL01 / ISO 17025)."
+      ] },
+      { years: "2013 – 2017", dur: "4 yrs", org: "SuperLab (Taiwan Testing)", role: "Senior Analyst / Project Manager", points: [
+        "R&D-center project manager: cross-team coordination, progress tracking and reporting.",
+        "ISO 17025 (TAF, TFDA) accreditation application and maintenance for the molecular lab.",
+        "Government tenders: TFDA lactic-acid-bacteria ID, GMO testing, foodborne molecular testing.",
+        "Antimicrobial / preservative / sterility testing and digital-PCR GMO quantification."
+      ] },
+      { years: "2012 – 2013", dur: "9 mos", org: "Yourgene Biotech", role: "Sales", points: [
+        "Promotion and result interpretation for whole-genome sequencing services.",
+        "Customer order management and tracking."
+      ] },
+      { years: "2011 – 2012", dur: "1 yr", org: "Medigen Biotech", role: "Product Specialist", points: [
+        "Installation, calibration, training and after-sales for automated blood-screening instruments.",
+        "Coverage across Beijing, Shanghai, Anhui, Sichuan, Changchun, Tianjin and Shenyang."
+      ] },
+      { years: "2007 – 2011", dur: "4 yrs", org: "Taiwan CDC Research & Diagnostic Center", role: "Research Assistant (Defense Program)", points: [
+        "Advanced detection & epidemiological typing of fungal pathogens via whole-genome methods.",
+        "Established detection/typing for gonococcus & chlamydia, plus rapid POC reagent development.",
+        "Serological and molecular testing for atypical pneumonia, STI screening and dengue."
+      ] }
+    ],
+    tProjects: "Key Projects", tProjectsEn: "重點專案成果",
+    projects: [
+      { badge: "USA · GRAS", title: "FDA GRAS Filings", desc: "Led GRN No.1130 and No.1235 to completion, securing 'Generally Recognized As Safe' status for probiotics in the US market." },
+      { badge: "China · Novel Food", title: "Infant-Use Strain Listing", desc: "Achieved listing of MP108 and CP-9 on China's infant-use strain list, opening the infant-food application market." },
+      { badge: "Certification", title: "NSF Product Certification", desc: "Led products through NSF international certification, strengthening trust and competitiveness in global channels." },
+      { badge: "Lab Build-out", title: "Testing Lab 0→1", desc: "Established, planned and managed personalized-medicine and probiotic testing labs in Taiwan and China, passing ISO 17025." }
+    ],
+    tAi: "AI & Digital Tools", tAiEn: "AI & Vibe Coding",
+    aiIntro: "I actively bring AI and vibe coding into daily work and personal projects — automating repetitive document, data and communication workflows to boost the output of R&D and regulatory teams.",
+    aiTools: [
+      { tag: "DOCUMENT SYSTEM", title: "Document Management System", desc: "An AI-assisted internal document management and retrieval system that speeds up organizing and finding regulatory and R&D files." },
+      { tag: "SPEECH-TO-TEXT", title: "Speech-to-Text Tool", desc: "Automatically transcribes meetings and interviews into text, greatly cutting the time cost of note-taking and knowledge capture." },
+      { tag: "WEB", title: "Static Web Design", desc: "Using vibe coding to rapidly build product and personal websites (like this one) and publish them on GitHub Pages." },
+      { tag: "WORKFLOW", title: "AI-Assisted R&D Workflow", desc: "Bringing large language models into literature review, data wrangling and drafting to shorten project cycles and raise quality." }
+    ],
+    tPubs: "Publications", tPubsEn: "發表論文",
+    pubsIntro: "17 peer-reviewed publications across two major research themes. Each entry has a one-line plain-language summary for quick understanding.",
+    themes: [
+      { title: "Probiotics & Postbiotics", count: "10", period: "2021 – 2026", desc: "Strain safety/toxicology, infant-formula clinical trials, and metabolic, immune and cognitive efficacy studies." },
+      { title: "Pathogen Genomics & AMR", count: "7", period: "2007 – 2011", desc: "Genome sequencing and rapid-detection development for multidrug-resistant Acinetobacter, gonococcus and more." }
+    ],
+    pubs: [
+      { i: "01", summary: "Safety and toxicity assessment of probiotic L. salivarius AP-32, in vivo and in vitro.", cite: "Chin YH, et al. Food Chem Toxicol, 2026. 210: 115970." },
+      { i: "02", summary: "Safety and potential of a postbiotic powder from a three-strain fermentation.", cite: "Li CM, et al. Fermentation, 2025. 11(11): 615." },
+      { i: "03", summary: "Safety & gut-microbiota effects of infant formula with CP-9 or AP-32; 4-month infant study.", cite: "Shen SP, et al. BMC Pediatr, 2024. 24(1): 840." },
+      { i: "04", summary: "Three probiotic strains improved liver function and uric-acid management — a pilot study.", cite: "Lin JH, et al. PLoS One, 2024. 19(7): e0307181." },
+      { i: "05", summary: "LY-66 and PL-02 enhanced explosive strength and endurance — a randomized double-blind trial.", cite: "Lee MC, et al. Nutrients, 2024. 16(12)." },
+      { i: "06", summary: "Probiotic formula improved renal function, glycemia and blood pressure in a diabetic-nephropathy mouse model.", cite: "Kuo YW, et al. Nutrients, 2023. 15(12)." },
+      { i: "07", summary: "12-week RCT of probiotics on BDNF, inflammation, oxidative stress and cognition in Alzheimer's patients.", cite: "Hsu YC, et al. Nutrients, 2024. 16(1)." },
+      { i: "08", summary: "Three-arm RCT on the safety of AP-32 and CP-9 used individually in healthy infants.", cite: "Chen JF, et al. Nutrients, 2023. 15(15)." },
+      { i: "09", summary: "Safety assessment and probiotic-potential comparison of four strains.", cite: "Chen JF, et al. Nutrients, 2024. 16(1)." },
+      { i: "10", summary: "Viable and heat-killed probiotics improved oral immunity by raising mucosal IgA.", cite: "Lin WY, et al. Curr Microbiol, 2021. 78(9): 3541-3549." },
+      { i: "11", summary: "Whole-genome sequence of multidrug-resistant Acinetobacter baumannii TCDC-AB0715.", cite: "Chen CC, et al. J Bacteriol, 2011. 193(9): 2361-2." },
+      { i: "12", summary: "Draft genome sequence of multidrug-resistant Neisseria gonorrhoeae TCDC-NG08107.", cite: "Chen CC, et al. J Bacteriol, 2011. 193(7): 1788-9." },
+      { i: "13", summary: "Differences in carbapenem-resistance genes among Acinetobacter species in Taiwan.", cite: "Lin YC, et al. Int J Antimicrob Agents, 2010. 35(5): 439-43." },
+      { i: "14", summary: "Genetic basis of multidrug resistance in Acinetobacter clinical isolates in Taiwan.", cite: "Lin YC, et al. Antimicrob Agents Chemother, 2010. 54(5): 2078-84." },
+      { i: "15", summary: "Real-time PCR of gyrA mutation to distinguish ciprofloxacin susceptibility in Acinetobacter.", cite: "Sheng WH, et al. Mol Cell Probes, 2009. 23(3-4): 154-6." },
+      { i: "16", summary: "A microsphere-based array for rapid identification of Acinetobacter spp.", cite: "Lin YC, et al. J Clin Microbiol, 2008. 46(2): 612-7." },
+      { i: "17", summary: "Selection and characterization of a lipase abzyme from phage-displayed antibody libraries.", cite: "Leong MK, et al. Biochem Biophys Res Commun, 2007. 361(3): 567-73." }
+    ],
+    tEdu: "Education", tEduEn: "教育背景",
+    education: [
+      { degree: "M.Sc. / 碩士", school: "National Dong Hwa University", field: "Institute of Biotechnology", year: "2006" },
+      { degree: "B.Sc. / 學士", school: "National Chung Hsing University", field: "Dept. of Plant Pathology", year: "2003" },
+      { degree: "High School", school: "Taipei Municipal Songshan High School", field: "", year: "" }
+    ],
+    tValue: "The Value I Bring",
+    valueIntro: "A complete track record across lab, R&D, regulatory and marketing lets me move quickly between roles and turn scientific capability into real organizational results.",
+    contributions: [
+      { n: "01", title: "Onboard & Optimize Lab Operations", desc: "Quickly take over and optimize daily testing-lab operations and quality systems to keep teams running smoothly." },
+      { n: "02", title: "Maintain Quality & Accreditation", desc: "ISO 17025 / TAF training plus multi-pharmacopeia testing experience keeps the quality system compliant." },
+      { n: "03", title: "Broad ID & R&D Capability", desc: "From whole-genome and molecular ID to advanced data analysis, supporting R&D and problem-solving end to end." },
+      { n: "04", title: "Cross-Domain Problem Solving", desc: "Rich experience across lab, R&D, regulatory and marketing means I stay composed against any challenge." }
+    ]
+  }
+};
+
+class Component extends DCLogic {
+  state = { lang: null };
+  renderVals() {
+    const lang = this.state.lang || this.props.defaultLang || "zh";
+    const base = DATA[lang];
+    const showPhones = this.props.showPhones !== false;
+    const t = { ...base, phones: showPhones ? base.phones : [] };
+    return {
+      t,
+      lang,
+      showAi: this.props.showAiSection !== false,
+      toggle: () => this.setState({ lang: lang === "zh" ? "en" : "zh" })
+    };
+  }
+}
+</script>
+</body>
+</html>
