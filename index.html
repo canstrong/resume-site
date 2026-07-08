@@ -89,7 +89,7 @@ image-slot{display:block}
     </div>
     <div style="display:flex;flex-direction:column;gap:14px">
       <div style="aspect-ratio:4/5;width:100%;border-radius:16px;overflow:hidden;background:#EAEDE6;border:1px solid rgba(0,0,0,0.07)">
-        <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="portrait" shape="rounded" radius="16" placeholder="拖放照片 / Drop photo" hint-size="100%,100%" style="width:100%;height:100%"></x-import>
+        <img src="assets/portrait.jpg" alt="{{ t.nameEn }} · {{ t.nameZh }}" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block">
       </div>
     </div>
   </section>
@@ -196,6 +196,28 @@ image-slot{display:block}
           <div style="font-size:18px;font-weight:700;color:#fff;margin-bottom:9px">{{ ai.title }}</div>
           <p style="font-size:14px;line-height:1.7;color:#B8B9B3;margin:0">{{ ai.desc }}</p>
         </div>
+      </sc-for>
+    </div>
+    <div style="margin:36px 0 0;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#2E5B4F;text-transform:uppercase">{{ t.tDemo }}</span>
+      <span style="font-size:13px;color:#7A7D76">{{ t.tDemoDesc }}</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:18px;margin-top:16px">
+      <sc-for list="{{ t.demo }}" as="d" hint-placeholder-count="4">
+        <figure style="margin:0;background:#fff;border:1px solid rgba(0,0,0,0.09);border-radius:12px;overflow:hidden">
+          <div style="display:flex;align-items:center;gap:6px;padding:9px 12px;background:#EAEDE6;border-bottom:1px solid rgba(0,0,0,0.06)">
+            <span style="width:9px;height:9px;border-radius:50%;background:#E24B4A;display:inline-block"></span>
+            <span style="width:9px;height:9px;border-radius:50%;background:#EF9F27;display:inline-block"></span>
+            <span style="width:9px;height:9px;border-radius:50%;background:#5DCAA5;display:inline-block"></span>
+          </div>
+          <div style="aspect-ratio:16/9;overflow:hidden;background:#F6F5F1">
+            <img src="{{ d.img }}" alt="{{ d.title }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block">
+          </div>
+          <figcaption style="padding:13px 15px 15px">
+            <div style="font-size:14.5px;font-weight:700;color:#1B1D1A;margin-bottom:4px">{{ d.title }}</div>
+            <div style="font-size:13px;line-height:1.6;color:#5A5D57">{{ d.desc }}</div>
+          </figcaption>
+        </figure>
       </sc-for>
     </div>
   </section>
@@ -411,6 +433,14 @@ const DATA = {
       { tag: "WEB", title: "靜態網頁設計", desc: "運用 vibe coding 快速打造產品與個人形象網頁（如本網站），並發佈於 GitHub Pages。" },
       { tag: "WORKFLOW", title: "AI 輔助研發流程", desc: "將大型語言模型導入文獻回顧、數據整理與草稿撰寫，縮短專案週期並提升品質。" }
     ],
+    tDemo: "成果展示 Live Demo",
+    tDemoDesc: "內部文件系統實際畫面",
+    demo: [
+      { img: "assets/demo/portal-home.jpg", title: "部門文件入口", desc: "品保／行銷／研發三大部門與內部工具的統一入口。" },
+      { img: "assets/demo/qa-generator.jpg", title: "規格文件即時產生", desc: "依產品代碼或學名搜尋，一鍵產生正式規格與檢驗 PDF。" },
+      { img: "assets/demo/marketing-dashboard.jpg", title: "SCI 文獻行銷儀表板", desc: "76 篇文獻、55 菌株的雙語互動式視覺化與證據分級。" },
+      { img: "assets/demo/meeting-ai.jpg", title: "AI 會議紀錄工具", desc: "Whisper 20 倍速語音轉錄，雲端 AI 自動產出會議重點與待辦。" }
+    ],
     tPubs: "發表論文", tPubsEn: "Publications",
     tAbstract: "摘要 Abstract",
     tSource: "原文",
@@ -554,6 +584,14 @@ const DATA = {
       { tag: "SPEECH-TO-TEXT", title: "Speech-to-Text Tool", desc: "Automatically transcribes meetings and interviews into text, greatly cutting the time cost of note-taking and knowledge capture." },
       { tag: "WEB", title: "Static Web Design", desc: "Using vibe coding to rapidly build product and personal websites (like this one) and publish them on GitHub Pages." },
       { tag: "WORKFLOW", title: "AI-Assisted R&D Workflow", desc: "Bringing large language models into literature review, data wrangling and drafting to shorten project cycles and raise quality." }
+    ],
+    tDemo: "Live Demo",
+    tDemoDesc: "Screens from the internal document system",
+    demo: [
+      { img: "assets/demo/portal-home.jpg", title: "Department document hub", desc: "One entry point to QA, Marketing and R&D plus internal tools." },
+      { img: "assets/demo/qa-generator.jpg", title: "Instant spec generation", desc: "Search by product code or scientific name; generate official spec & test PDFs in one click." },
+      { img: "assets/demo/marketing-dashboard.jpg", title: "SCI literature marketing dashboard", desc: "Bilingual interactive visualization across 76 papers and 55 strains with evidence grading." },
+      { img: "assets/demo/meeting-ai.jpg", title: "AI meeting-minutes tool", desc: "Whisper 20× transcription with cloud AI that drafts minutes and action items." }
     ],
     tPubs: "Publications", tPubsEn: "發表論文",
     tAbstract: "Abstract",
