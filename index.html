@@ -203,7 +203,7 @@ image-slot{display:block}
       <span style="font-size:13px;color:#7A7D76">{{ t.tDemoDesc }}</span>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:18px;margin-top:16px">
-      <sc-for list="{{ t.demo }}" as="d" hint-placeholder-count="4">
+      <sc-for list="{{ t.demo }}" as="d" hint-placeholder-count="5">
         <figure style="margin:0;background:#fff;border:1px solid rgba(0,0,0,0.09);border-radius:12px;overflow:hidden">
           <div style="display:flex;align-items:center;gap:6px;padding:9px 12px;background:#EAEDE6;border-bottom:1px solid rgba(0,0,0,0.06)">
             <span style="width:9px;height:9px;border-radius:50%;background:#E24B4A;display:inline-block"></span>
@@ -435,9 +435,10 @@ const DATA = {
       { tag: "WORKFLOW", title: "AI 輔助研發流程", desc: "將大型語言模型導入文獻回顧、數據整理與草稿撰寫，縮短專案週期並提升品質。" }
     ],
     tDemo: "成果展示 Live Demo",
-    tDemoDesc: "內部文件系統實際畫面",
+    tDemoDesc: "內部文件系統與專案管理系統實際畫面",
     demo: [
       { img: "assets/demo/portal-home.jpg", title: "部門文件入口", desc: "品保／行銷／研發三大部門與內部工具的統一入口。" },
+      { img: "assets/demo/pm-app.jpg", title: "專案管理系統甘特圖", desc: "任務時間軸、前置任務相依箭頭、里程碑與逾期標示，另有看板與日曆檢視。" },
       { img: "assets/demo/qa-generator.jpg", title: "規格文件即時產生", desc: "依產品代碼或學名搜尋，一鍵產生正式規格與檢驗 PDF。" },
       { img: "assets/demo/marketing-dashboard.jpg", title: "SCI 文獻行銷儀表板", desc: "76 篇文獻、55 菌株的雙語互動式視覺化與證據分級。" },
       { img: "assets/demo/meeting-ai.jpg", title: "AI 會議紀錄工具", desc: "Whisper 20 倍速語音轉錄，雲端 AI 自動產出會議重點與待辦。" }
@@ -588,9 +589,10 @@ const DATA = {
       { tag: "WORKFLOW", title: "AI-Assisted R&D Workflow", desc: "Bringing large language models into literature review, data wrangling and drafting to shorten project cycles and raise quality." }
     ],
     tDemo: "Live Demo",
-    tDemoDesc: "Screens from the internal document system",
+    tDemoDesc: "Screens from the internal document and project management systems",
     demo: [
       { img: "assets/demo/portal-home.jpg", title: "Department document hub", desc: "One entry point to QA, Marketing and R&D plus internal tools." },
+      { img: "assets/demo/pm-app.jpg", title: "Project management Gantt view", desc: "Task timeline with dependency arrows, milestones and overdue flags; board and calendar views included." },
       { img: "assets/demo/qa-generator.jpg", title: "Instant spec generation", desc: "Search by product code or scientific name; generate official spec & test PDFs in one click." },
       { img: "assets/demo/marketing-dashboard.jpg", title: "SCI literature marketing dashboard", desc: "Bilingual interactive visualization across 76 papers and 55 strains with evidence grading." },
       { img: "assets/demo/meeting-ai.jpg", title: "AI meeting-minutes tool", desc: "Whisper 20× transcription with cloud AI that drafts minutes and action items." }
