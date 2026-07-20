@@ -190,7 +190,7 @@ image-slot{display:block}
     </div>
     <p style="font-size:15.5px;line-height:1.75;color:#4A4D47;margin:0 0 30px;max-width:640px">{{ t.aiIntro }}</p>
     <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px">
-      <sc-for list="{{ t.aiTools }}" as="ai" hint-placeholder-count="4">
+      <sc-for list="{{ t.aiTools }}" as="ai" hint-placeholder-count="5">
         <div style="background:#1B1D1A;color:#EDECE6;border-radius:14px;padding:26px 24px">
           <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8FB5AA;margin-bottom:12px">{{ ai.tag }}</div>
           <div style="font-size:18px;font-weight:700;color:#fff;margin-bottom:9px">{{ ai.title }}</div>
@@ -429,6 +429,7 @@ const DATA = {
     aiIntro: "近年主動將 AI 與 vibe coding 導入日常工作與個人專案，把重複性的文件、資料與溝通流程自動化，提升研發與法規團隊的產出效率。",
     aiTools: [
       { tag: "DOCUMENT SYSTEM", title: "文件管理系統", desc: "以 AI 輔助開發的內部文件管理與檢索系統，加速法規與研發文件的整理、分類與查找。" },
+      { tag: "PROJECT MANAGEMENT", title: "專案管理系統建置", desc: "自建多人協作的線上專案管理系統取代 Excel 管理表，提供任務看板、甘特圖與日曆檢視、里程碑與前置任務相依、完整異動紀錄，並支援 Excel 匯入匯出與語音輸入。" },
       { tag: "SPEECH-TO-TEXT", title: "語音轉文字工具", desc: "將會議與訪談語音自動轉為逐字稿，大幅縮短紀錄與知識整理的時間成本。" },
       { tag: "WEB", title: "靜態網頁設計", desc: "運用 vibe coding 快速打造產品與個人形象網頁（如本網站），並發佈於 GitHub Pages。" },
       { tag: "WORKFLOW", title: "AI 輔助研發流程", desc: "將大型語言模型導入文獻回顧、數據整理與草稿撰寫，縮短專案週期並提升品質。" }
@@ -581,6 +582,7 @@ const DATA = {
     aiIntro: "I actively bring AI and vibe coding into daily work and personal projects — automating repetitive document, data and communication workflows to boost the output of R&D and regulatory teams.",
     aiTools: [
       { tag: "DOCUMENT SYSTEM", title: "Document Management System", desc: "An AI-assisted internal document management and retrieval system that speeds up organizing and finding regulatory and R&D files." },
+      { tag: "PROJECT MANAGEMENT", title: "Project Management System", desc: "A self-built multi-user project management system replacing Excel trackers — task boards, Gantt and calendar views, milestones with task dependencies, full change history, plus Excel import/export and voice input." },
       { tag: "SPEECH-TO-TEXT", title: "Speech-to-Text Tool", desc: "Automatically transcribes meetings and interviews into text, greatly cutting the time cost of note-taking and knowledge capture." },
       { tag: "WEB", title: "Static Web Design", desc: "Using vibe coding to rapidly build product and personal websites (like this one) and publish them on GitHub Pages." },
       { tag: "WORKFLOW", title: "AI-Assisted R&D Workflow", desc: "Bringing large language models into literature review, data wrangling and drafting to shorten project cycles and raise quality." }
