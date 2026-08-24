@@ -170,7 +170,7 @@ image-slot{display:block}
       <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#9A9D96;text-transform:uppercase">{{ t.tProjectsEn }}</span>
     </div>
     <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px">
-      <sc-for list="{{ t.projects }}" as="pr" hint-placeholder-count="4">
+      <sc-for list="{{ t.projects }}" as="pr" hint-placeholder-count="3">
         <div style="background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:14px;padding:26px 24px;border-left:3px solid #2E5B4F">
           <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:1px;color:#2E5B4F;text-transform:uppercase;background:#EAEDE6;padding:4px 9px;border-radius:6px">{{ pr.badge }}</span>
           <div style="font-size:18px;font-weight:700;margin:16px 0 9px">{{ pr.title }}</div>
@@ -368,7 +368,7 @@ const DATA = {
       { id: "pubs", label: "發表論文" },
       { id: "patents", label: "專利" },
       { id: "education", label: "學歷" },
-      { id: "value", label: "我的價值" }
+      { id: "value", label: "勝任工作" }
     ],
     stats: [
       { n: "18", u: "年", l: "產業資歷" },
@@ -422,8 +422,7 @@ const DATA = {
     projects: [
       { badge: "美國 · GRAS", title: "FDA GRAS 認證申請", desc: "主導完成 GRN No.1130 與 No.1235，取得益生菌於美國市場「一般認為安全」的合法上市地位。" },
       { badge: "中國 · 新食品原料", title: "嬰幼兒可使用菌株名單", desc: "完成 MP108、CP-9 於中國嬰幼兒可使用菌株名單的列名，打開嬰幼兒食品應用市場。" },
-      { badge: "國際認證", title: "NSF 產品認證", desc: "主導產品通過 NSF 國際認證，提升產品於國際通路的信任與競爭力。" },
-      { badge: "實驗室建置", title: "檢驗實驗室 0→1 建置", desc: "於台灣與大陸建立、規劃並管理個人化醫療與益生菌檢驗實驗室，並通過 ISO 17025 認證。" }
+      { badge: "國際認證", title: "NSF 產品認證", desc: "主導產品通過 NSF 國際認證，提升產品於國際通路的信任與競爭力。" }
     ],
     tAi: "AI 與數位工具應用", tAiEn: "AI & Vibe Coding",
     aiIntro: "近年主動將 AI 與 vibe coding 導入日常工作與個人專案，把重複性的文件、資料與溝通流程自動化，提升研發與法規團隊的產出效率。",
@@ -489,13 +488,13 @@ const DATA = {
       { degree: "碩士 / M.Sc.", school: "國立東華大學", field: "生物技術研究所", year: "2006" },
       { degree: "學士 / B.Sc.", school: "國立中興大學", field: "植物病理學系", year: "2003" }
     ],
-    tValue: "我能帶來的價值",
-    valueIntro: "橫跨實驗室、研發、法規與行銷的完整經歷，讓我能在不同角色間快速接軌，並將科學能力轉化為組織的實質成果。",
+    tValue: "我能勝任的工作",
+    valueIntro: "實驗室、研發、法規、行銷都實際做過。以下四類工作我可以直接接手。",
     contributions: [
-      { n: "01", title: "接軌並優化實驗室運營", desc: "能快速接手並優化檢驗實驗室的日常運營與品質系統，讓團隊穩定運轉。" },
-      { n: "02", title: "維護品質與國際認證", desc: "具備 ISO 17025 / TAF 認證訓練與多國藥典檢驗經驗，確保品質系統合規。" },
-      { n: "03", title: "多元鑑定與研發能力", desc: "從全基因、分子鑑定到高階數據分析，全面支援研發與問題解決。" },
-      { n: "04", title: "跨領域問題解決", desc: "橫跨實驗室、研發、法規認證與行銷的豐富經驗，能沉著應對各種挑戰。" }
+      { n: "01", title: "專案管理與進度追蹤", desc: "FDA GRAS 申請的專案負責人，完成 GRN No.1130、No.1235 兩案。實驗數據、文獻整理與送審文件要同時推進，任一環節落後整案就卡住，所以時程與缺件我都自己盯。" },
+      { n: "02", title: "實驗室認證維護", desc: "ISO 17025 實務檢驗執行經驗，已取得 TAF 認證證書並通過 TAF 測試實驗室主管訓練。認證的申請、維持與稽核應對都實際跑過。" },
+      { n: "03", title: "微生物與分生研發", desc: "長年微生物與分子生物研發經驗，參與發表多篇研究、撰寫專利，並負責臨床試驗計畫的撰寫與執行。" },
+      { n: "04", title: "AI 自學與應用", desc: "自學 AI 與 vibe coding 並導入日常工作。內部文件系統、會議轉錄工具與專案管理系統都是自己做的。" }
     ]
   },
   en: {
@@ -522,7 +521,7 @@ const DATA = {
       { id: "pubs", label: "Publications" },
       { id: "patents", label: "Patents" },
       { id: "education", label: "Education" },
-      { id: "value", label: "Value" }
+      { id: "value", label: "Roles" }
     ],
     stats: [
       { n: "18", u: "yr", l: "Industry experience" },
@@ -576,8 +575,7 @@ const DATA = {
     projects: [
       { badge: "USA · GRAS", title: "FDA GRAS Filings", desc: "Led GRN No.1130 and No.1235 to completion, securing 'Generally Recognized As Safe' status for probiotics in the US market." },
       { badge: "China · Novel Food", title: "Infant-Use Strain Listing", desc: "Achieved listing of MP108 and CP-9 on China's infant-use strain list, opening the infant-food application market." },
-      { badge: "Certification", title: "NSF Product Certification", desc: "Led products through NSF international certification, strengthening trust and competitiveness in global channels." },
-      { badge: "Lab Build-out", title: "Testing Lab 0→1", desc: "Established, planned and managed personalized-medicine and probiotic testing labs in Taiwan and China, passing ISO 17025." }
+      { badge: "Certification", title: "NSF Product Certification", desc: "Led products through NSF international certification, strengthening trust and competitiveness in global channels." }
     ],
     tAi: "AI & Digital Tools", tAiEn: "AI & Vibe Coding",
     aiIntro: "I actively bring AI and vibe coding into daily work and personal projects — automating repetitive document, data and communication workflows to boost the output of R&D and regulatory teams.",
@@ -643,13 +641,13 @@ const DATA = {
       { degree: "M.Sc. / 碩士", school: "National Dong Hwa University", field: "Institute of Biotechnology", year: "2006" },
       { degree: "B.Sc. / 學士", school: "National Chung Hsing University", field: "Dept. of Plant Pathology", year: "2003" }
     ],
-    tValue: "The Value I Bring",
-    valueIntro: "A complete track record across lab, R&D, regulatory and marketing lets me move quickly between roles and turn scientific capability into real organizational results.",
+    tValue: "Roles I Can Fill",
+    valueIntro: "I have actually worked the lab, R&D, regulatory and marketing sides of this industry. These four areas I can pick up directly.",
     contributions: [
-      { n: "01", title: "Onboard & Optimize Lab Operations", desc: "Quickly take over and optimize daily testing-lab operations and quality systems to keep teams running smoothly." },
-      { n: "02", title: "Maintain Quality & Accreditation", desc: "ISO 17025 / TAF training plus multi-pharmacopeia testing experience keeps the quality system compliant." },
-      { n: "03", title: "Broad ID & R&D Capability", desc: "From whole-genome and molecular ID to advanced data analysis, supporting R&D and problem-solving end to end." },
-      { n: "04", title: "Cross-Domain Problem Solving", desc: "Rich experience across lab, R&D, regulatory and marketing means I stay composed against any challenge." }
+      { n: "01", title: "Project Management & Tracking", desc: "Project lead for the FDA GRAS filings, completing GRN No.1130 and No.1235. Lab data, literature review and submission documents all have to move in parallel — one slipping stalls the whole filing, so I track the schedule and open items myself." },
+      { n: "02", title: "Accreditation Maintenance", desc: "Hands-on ISO 17025 testing experience, holding a TAF accreditation certificate and having completed TAF testing-lab supervisor training. I have run accreditation applications, renewals and audits myself." },
+      { n: "03", title: "Microbiology & Molecular R&D", desc: "Years of microbiology and molecular biology R&D — co-authoring published research, drafting patents, and writing and running clinical trial protocols." },
+      { n: "04", title: "Self-Taught AI Adoption", desc: "Self-taught AI and vibe coding, brought into daily work. The internal document system, meeting transcription tool and project management system are all ones I built." }
     ]
   }
 };
