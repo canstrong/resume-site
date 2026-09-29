@@ -27,7 +27,7 @@ web
 - 中英雙語切換，同一份資料兩種語言（`DATA = { zh, en }`）。
 - 讀者可能列印或另存 PDF 當履歷，頁面有專屬列印樣式。
 - 部署在 GitHub Pages（`canstrong/resume-site`，branch `main`，根目錄），推上 main 即上線。
-- 實際部署來源是 `Self_Web/resume-site-git/`；`Self_Web/個人履歷網頁專案/resume-site/` 是已過期的舊副本，不可編輯。
+- 實際部署來源是 `Self_Web/resume-site-git/`，也是唯一一份。2026-09-29 已刪除過期的重複副本（`個人履歷網頁專案/resume-site/`、同名 zip 與一份指向舊路徑的部署指南）。
 
 ## Capabilities and Constraints
 
