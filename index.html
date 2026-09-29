@@ -17,330 +17,604 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Noto+Sans+TC:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:#F6F5F1;color:#1B1D1A;font-family:"Noto Sans TC",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-::selection{background:#2E5B4F;color:#fff}
+:root{
+  --paper:#FFFFFF;
+  --paper-2:#F7F7F6;
+  --ink:#0C0D0F;
+  --ink-2:#3A3E45;
+  --ink-3:#686E78;
+  --rule:#E4E5E7;
+  --rule-2:#CFD1D5;
+  --accent:#15497E;
+  --accent-2:#0F3A67;
+  --accent-wash:#EEF3F9;
+
+  --fs-display:clamp(38px,5.2vw,58px);
+  --fs-h2:clamp(23px,2.5vw,29px);
+  --fs-h3:17px;
+  --fs-body:16px;
+  --fs-sm:14px;
+  --fs-xs:12.5px;
+
+  --sp-1:4px;  --sp-2:8px;  --sp-3:12px; --sp-4:16px;
+  --sp-5:24px; --sp-6:32px; --sp-7:48px; --sp-8:64px;
+  --sp-9:96px; --sp-10:128px;
+
+  --wrap:1080px;
+  --measure:68ch;
+
+  --sans:"IBM Plex Sans","IBM Plex Sans TC",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:var(--fs-body);
+  line-height:1.75;
+  font-synthesis-weight:none;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+}
+
+/* ---- browser surfaces: these ship with the design, not the browser ---- */
+::selection{background:var(--accent);color:#fff}
+body{caret-color:var(--accent);scrollbar-color:var(--rule-2) transparent;scrollbar-width:thin}
+::-webkit-scrollbar{width:11px;height:11px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--rule-2);border-radius:99px;border:3px solid var(--paper)}
+::-webkit-scrollbar-thumb:hover{background:var(--ink-3)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+:focus:not(:focus-visible){outline:none}
+
+h1,h2,h3,h4,p,ul,ol,dl,dd,figure,table{margin:0}
+ul,ol{padding:0;list-style:none}
+img{display:block;max-width:100%}
+table{border-collapse:collapse;width:100%}
+
 a{color:inherit}
-image-slot{display:block}
-.mobile-nav{display:none;position:relative}
-.mobile-nav>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:center;width:40px;height:40px;font-size:18px;border:1px solid rgba(0,0,0,0.18);border-radius:8px;color:#1B1D1A}
-.mobile-nav>summary::-webkit-details-marker{display:none}
-.mobile-nav[open]>summary{border-color:#2E5B4F;color:#2E5B4F}
-.mobile-menu{position:absolute;right:0;top:48px;background:#fff;border:1px solid rgba(0,0,0,0.12);border-radius:12px;padding:8px;display:flex;flex-direction:column;gap:2px;min-width:168px;box-shadow:0 10px 30px rgba(0,0,0,0.13);z-index:60}
-.mobile-menu a{padding:10px 12px;border-radius:8px;text-decoration:none;font-size:15px;color:#3A3D38}
-@media(max-width:820px){.nav-links{display:none!important}.mobile-nav{display:block}}
+a.lnk{
+  color:var(--accent);
+  text-decoration:underline;
+  text-decoration-thickness:1px;
+  text-underline-offset:3px;
+  text-decoration-color:color-mix(in srgb,var(--accent) 34%,transparent);
+  transition:text-decoration-color .18s ease,color .18s ease;
+}
+a.lnk:hover{color:var(--accent-2);text-decoration-color:currentColor}
+
+.num{font-variant-numeric:tabular-nums lining-nums;font-feature-settings:"tnum" 1,"lnum" 1}
+
+.wrap{max-width:var(--wrap);margin:0 auto;padding-inline:clamp(20px,5vw,40px)}
+.prose{max-width:var(--measure)}
+
+/* ---------------- header ---------------- */
+.hdr{
+  position:sticky;top:0;z-index:60;
+  background:color-mix(in srgb,var(--paper) 88%,transparent);
+  backdrop-filter:saturate(180%) blur(12px);
+  -webkit-backdrop-filter:saturate(180%) blur(12px);
+  border-bottom:1px solid var(--rule);
+}
+.hdr-in{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-5);min-height:62px}
+.brand{display:flex;align-items:baseline;gap:10px;text-decoration:none;white-space:nowrap}
+.brand b{font-size:16px;font-weight:600;letter-spacing:-0.01em}
+.brand .alt{font-size:var(--fs-xs);color:var(--ink-3);font-weight:400}
+.hdr-right{display:flex;align-items:center;gap:var(--sp-2)}
+.navlinks{display:flex;align-items:center;gap:2px}
+.navlinks a{
+  font-size:var(--fs-sm);color:var(--ink-2);text-decoration:none;
+  padding:6px 9px;border-radius:6px;transition:background .16s ease,color .16s ease;
+}
+.navlinks a:hover{background:var(--paper-2);color:var(--ink)}
+
+.btn{
+  display:inline-flex;align-items:center;gap:7px;
+  font:inherit;font-size:var(--fs-sm);font-weight:500;
+  padding:7px 13px;border-radius:7px;border:1px solid var(--rule-2);
+  background:var(--paper);color:var(--ink);cursor:pointer;text-decoration:none;
+  transition:border-color .16s ease,background .16s ease,color .16s ease;
+}
+.btn:hover{border-color:var(--ink-3);background:var(--paper-2)}
+.btn-solid{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn-solid:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+
+.menu{position:relative;display:none}
+.menu>summary{
+  list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  width:38px;height:38px;border:1px solid var(--rule-2);border-radius:7px;color:var(--ink);
+}
+.menu>summary::-webkit-details-marker{display:none}
+.menu[open]>summary{border-color:var(--accent);color:var(--accent)}
+.menu-panel{
+  position:absolute;right:0;top:46px;min-width:172px;padding:6px;
+  background:var(--paper);border:1px solid var(--rule);border-radius:10px;
+  border-color:var(--rule-2);
+  display:flex;flex-direction:column;gap:1px;
+}
+.menu-panel a{padding:9px 11px;border-radius:6px;font-size:var(--fs-sm);color:var(--ink-2);text-decoration:none}
+.menu-panel a:hover{background:var(--paper-2);color:var(--ink)}
+@media (max-width:900px){.navlinks{display:none}.menu{display:block}}
+
+/* ---------------- hero ---------------- */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:clamp(32px,5vw,72px);align-items:start;padding-block:clamp(48px,7vw,84px) var(--sp-7)}
+.hero h1{font-size:var(--fs-display);line-height:1.04;letter-spacing:-0.02em;font-weight:600;text-wrap:balance}
+.hero .h1-en{display:block;font-size:clamp(17px,1.8vw,21px);font-weight:400;letter-spacing:.005em;color:var(--ink-3);margin-top:10px;line-height:1.3}
+.hero .role{margin-top:var(--sp-5);font-size:var(--fs-h3);font-weight:500;color:var(--accent);line-height:1.5}
+.hero .tagline{margin-top:var(--sp-4);color:var(--ink-2);max-width:56ch;text-wrap:pretty}
+.contact{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin-top:var(--sp-6)}
+.contact .ic{flex:none;color:currentColor;opacity:.72}
+.portrait{border:1px solid var(--rule);border-radius:3px;overflow:hidden;background:var(--paper-2);aspect-ratio:4/5}
+.portrait img{width:100%;height:100%;object-fit:cover;object-position:center 18%}
+
+/* ---- front matter: the record, stated once ---- */
+.fm{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(122px,1fr));
+  gap:var(--sp-3) var(--sp-5);
+  padding:var(--sp-5) 0;
+  border-top:1px solid var(--ink);border-bottom:1px solid var(--rule);
+}
+.fm-i{display:flex;flex-direction:column;gap:2px}
+.fm-v{font-size:21px;font-weight:600;letter-spacing:-0.015em;line-height:1.2}
+.fm-v em{font-style:normal;font-size:13px;font-weight:500;color:var(--ink-3);margin-left:3px}
+.fm-l{font-size:var(--fs-xs);color:var(--ink-3);line-height:1.4}
+
+/* ---------------- section shell ---------------- */
+.sec{padding-block:clamp(56px,7vw,92px) 0}
+.sec-head{margin-bottom:var(--sp-6)}
+.sec-head h2{font-size:var(--fs-h2);font-weight:600;letter-spacing:-0.02em;line-height:1.25;display:flex;flex-wrap:wrap;align-items:baseline;gap:10px}
+.sec-head h2 .alt{font-size:var(--fs-sm);font-weight:400;color:var(--ink-3);letter-spacing:0}
+.sec-head p{margin-top:var(--sp-3);color:var(--ink-2);max-width:var(--measure);text-wrap:pretty}
+.sec-alt{background:var(--paper-2);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);margin-top:clamp(56px,7vw,92px);padding-bottom:clamp(56px,7vw,92px)}
+.sec-alt.sec{padding-block-start:clamp(56px,7vw,92px)}
+
+/* ---------------- ruled grid (skills / projects / ai / roles / education) ---------------- */
+.grid{display:grid;gap:0 clamp(28px,4vw,56px)}
+.g-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.item{padding:var(--sp-5) 0;border-top:1px solid var(--rule)}
+.item h3{font-size:var(--fs-h3);font-weight:600;letter-spacing:-0.01em;line-height:1.45}
+.item p{margin-top:7px;font-size:var(--fs-sm);color:var(--ink-2);line-height:1.7;text-wrap:pretty}
+.label{font-size:var(--fs-xs);font-weight:500;color:var(--accent);line-height:1.4}
+.item .label+h3{margin-top:5px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:var(--sp-3)}
+.tag{font-size:var(--fs-xs);color:var(--ink-2);background:var(--paper-2);border:1px solid var(--rule);padding:2px 8px;border-radius:99px;line-height:1.6}
+.sec-alt .tag{background:var(--paper)}
+.idx{font-size:var(--fs-xs);font-weight:500;color:var(--ink-3);line-height:1.4}
+
+.certs{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--sp-2) var(--sp-5);margin-top:var(--sp-5);padding-top:var(--sp-4);border-top:1px solid var(--rule)}
+.certs dt{font-size:var(--fs-xs);color:var(--ink-3)}
+.certs dd{display:flex;align-items:center;gap:7px;margin:0;font-size:var(--fs-sm);color:var(--ink-2)}
+.certs .ic{flex:none;color:var(--accent)}
+
+/* ---------------- timeline ---------------- */
+.tl-row{display:grid;grid-template-columns:168px minmax(0,1fr);gap:var(--sp-5) clamp(24px,4vw,44px);padding:var(--sp-5) 0;border-top:1px solid var(--rule)}
+.tl-when{font-size:var(--fs-sm);font-weight:500;line-height:1.5}
+.tl-dur{font-size:var(--fs-xs);color:var(--ink-3);margin-top:2px}
+.tl-who{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px}
+.tl-org{font-size:var(--fs-h3);font-weight:600;letter-spacing:-0.01em}
+.tl-role{font-size:var(--fs-sm);color:var(--accent);font-weight:500}
+.pts{margin-top:var(--sp-3);display:flex;flex-direction:column;gap:7px}
+.pts li{position:relative;padding-left:16px;font-size:var(--fs-sm);color:var(--ink-2);line-height:1.7}
+.pts li::before{content:"";position:absolute;left:1px;top:.72em;width:5px;height:1px;background:var(--rule-2)}
+
+/* ---------------- figures ---------------- */
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:clamp(20px,3vw,32px);margin-top:var(--sp-6)}
+figure{margin:0}
+.fig-img{border:1px solid var(--rule);border-radius:3px;overflow:hidden;background:var(--paper-2);aspect-ratio:16/10}
+.fig-img img{width:100%;height:100%;object-fit:cover;object-position:top center}
+figcaption{margin-top:10px}
+figcaption b{display:block;font-size:var(--fs-sm);font-weight:600;line-height:1.5}
+figcaption .cap{display:block;margin-top:3px;font-size:var(--fs-xs);color:var(--ink-3);line-height:1.6}
+.figs-note{margin-top:var(--sp-7);font-size:var(--fs-sm);color:var(--ink-2)}
+.figs-note b{font-weight:600;color:var(--ink)}
+
+/* ---------------- publications ---------------- */
+.themes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(28px,4vw,56px);margin-bottom:var(--sp-7)}
+.theme{padding:var(--sp-5) 0;border-top:1px solid var(--ink)}
+.theme-top{display:flex;align-items:baseline;justify-content:space-between;gap:var(--sp-4)}
+.theme-top b{font-size:var(--fs-h3);font-weight:600;letter-spacing:-0.01em}
+.theme-n{font-size:25px;font-weight:600;letter-spacing:-0.02em;color:var(--accent);line-height:1}
+.theme-when{margin-top:3px;font-size:var(--fs-xs);color:var(--ink-3)}
+.theme p{margin-top:9px;font-size:var(--fs-sm);color:var(--ink-2);line-height:1.7}
+
+.refs{border-top:0}
+.ref{display:grid;grid-template-columns:38px minmax(0,1fr);gap:var(--sp-4);padding:var(--sp-4) 0;border-top:1px solid var(--rule)}
+.ref:first-child{border-top:1px solid var(--ink)}
+.ref:last-child{border-bottom:1px solid var(--rule)}
+.ref-n{font-size:var(--fs-sm);color:var(--ink-3);line-height:1.6;padding-top:1px}
+.ref-t{font-size:var(--fs-sm);font-weight:500;line-height:1.65;text-wrap:pretty}
+.ref-c{margin-top:4px;font-size:var(--fs-xs);color:var(--ink-3);line-height:1.6;overflow-wrap:anywhere}
+.ref-a{margin-top:7px}
+.ref details summary{
+  display:inline-flex;align-items:center;gap:5px;cursor:pointer;list-style:none;
+  font-size:var(--fs-xs);color:var(--accent);border-radius:3px;
+}
+.ref details summary::-webkit-details-marker{display:none}
+.ref details summary .ic{transition:transform .2s ease}
+.ref details[open] summary .ic{transform:rotate(90deg)}
+.ref details p{margin-top:8px;font-size:var(--fs-xs);color:var(--ink-2);line-height:1.8;max-width:var(--measure)}
+.ref-links{display:flex;flex-wrap:wrap;align-items:center;gap:var(--sp-4);margin-top:7px}
+
+/* ---------------- patents ---------------- */
+.pat th{
+  text-align:left;font-size:var(--fs-xs);font-weight:500;color:var(--ink-3);
+  padding:0 var(--sp-4) var(--sp-3) 0;border-bottom:1px solid var(--ink);white-space:nowrap;
+}
+.pat td{padding:var(--sp-4) var(--sp-4) var(--sp-4) 0;border-bottom:1px solid var(--rule);vertical-align:baseline;font-size:var(--fs-sm)}
+.pat td:first-child{font-weight:500;white-space:nowrap;width:1%}
+.pat td:nth-child(2){color:var(--ink-3);font-size:var(--fs-xs);white-space:nowrap;width:1%}
+.pat td:last-child{padding-right:0;color:var(--ink-2);line-height:1.65}
+.pat tbody tr:hover td{background:var(--paper-2)}
+
+/* ---------------- roles ---------------- */
+.roles .item{border-top:1px solid var(--rule)}
+.roles .item:first-child,.roles .item:nth-child(2){border-top-color:var(--ink)}
+
+/* ---------------- footer ---------------- */
+.ftr{margin-top:clamp(56px,7vw,92px);border-top:1px solid var(--ink);padding:var(--sp-6) 0 var(--sp-8)}
+.ftr-in{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:var(--sp-4)}
+.ftr b{font-size:var(--fs-sm);font-weight:600}
+.ftr p{font-size:var(--fs-xs);color:var(--ink-3);margin-top:3px}
+.ftr-c{display:flex;flex-wrap:wrap;gap:var(--sp-2) var(--sp-5);font-size:var(--fs-xs);color:var(--ink-3)}
+
+/* ---------------- the one authored moment ---------------- */
+@media (prefers-reduced-motion:no-preference){
+  .rise{animation:rise .62s cubic-bezier(.16,1,.3,1) both}
+  .rise-2{animation-delay:.07s}
+  .rise-3{animation-delay:.14s}
+  .rise-4{animation-delay:.21s}
+}
+@keyframes rise{from{opacity:0;transform:translate3d(0,10px,0)}to{opacity:1;transform:none}}
+
+/* ---------------- responsive ---------------- */
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr;gap:var(--sp-6)}
+  .portrait{max-width:160px;order:-1}
+  .g-3{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .themes{grid-template-columns:1fr}
+  .tl-row{grid-template-columns:1fr;gap:var(--sp-3)}
+}
+@media (max-width:640px){
+  :root{--fs-body:15.5px}
+  .g-2,.g-3{grid-template-columns:1fr}
+  .ref{grid-template-columns:28px minmax(0,1fr);gap:var(--sp-3)}
+  .pat td:nth-child(2){display:none}
+  .pat th:nth-child(2){display:none}
+  .contact{gap:6px}
+}
+
+/* ---------------- print: this has to be a real CV ---------------- */
 @media print{
-  html,body{background:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  header{position:static!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:#fff!important}
-  .nav-links,.mobile-nav,.no-print{display:none!important}
-  header button{display:none!important}
-  section{break-inside:avoid}
+  @page{margin:14mm 13mm}
+  :root{--fs-body:10.5pt;--fs-sm:9.5pt;--fs-xs:8.5pt;--fs-h2:15pt;--fs-h3:11pt;--fs-display:26pt}
+  html,body{background:#fff!important;color:#000}
+  body{line-height:1.55}
+  .hdr,.menu,.no-print,.figs,.btn{display:none!important}
+  .wrap{max-width:none;padding:0}
+  .sec{padding-block:16pt 0;break-inside:auto}
+  .sec-alt{background:transparent;border:0;margin:0;padding-bottom:0}
+  .sec-head{margin-bottom:9pt}
+  .sec-head h2{break-after:avoid}
+  .hero{grid-template-columns:1fr 104px;gap:16pt;padding-block:0 12pt}
+  .portrait{max-width:104px;order:0}
+  .contact{margin-top:8pt;gap:4pt 12pt}
+  .contact .btn:not(.no-print){display:inline-flex!important;border:0;padding:0;font-size:9.5pt;background:transparent!important;color:#000!important}
+  .fm{padding:8pt 0;border-top:.7pt solid #000;border-bottom:.7pt solid #999}
+  .fm-v{font-size:13pt}
+  .item,.tl-row,.ref,.theme{break-inside:avoid;padding:7pt 0}
+  .ref details{display:none}
+  .pat td,.pat th{padding:4pt 8pt 4pt 0}
+  .pat tbody tr:hover td{background:transparent}
+  a.lnk{color:#000;text-decoration:none}
+  .ftr{margin-top:14pt;padding:8pt 0 0}
+  .tag{background:transparent;border-color:#bbb}
 }
 </style>
 </helmet>
-<div style="width:100%;overflow-x:hidden">
 
-<header style="position:sticky;top:0;z-index:50;background:rgba(246,245,241,0.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(0,0,0,0.08)">
-  <div style="max-width:1180px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px">
-    <a href="#top" style="display:flex;flex-direction:column;gap:2px;text-decoration:none">
-      <span style="font-family:Newsreader,serif;font-size:19px;font-weight:600;letter-spacing:0.2px">{{ t.brandName }}</span>
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1.5px;color:#6B6E68;text-transform:uppercase">{{ t.brandRole }}</span>
+<header class="hdr">
+  <div class="wrap hdr-in">
+    <a href="#top" class="brand">
+      <b>{{ t.brandName }}</b>
+      <span class="alt">{{ t.brandRole }}</span>
     </a>
-    <nav style="display:flex;align-items:center;gap:6px">
-      <div class="nav-links" style="display:flex;align-items:center;gap:2px;margin-right:8px">
-        <sc-for list="{{ t.nav }}" as="item" hint-placeholder-count="8">
-          <a href="#{{ item.id }}" style="font-size:13.5px;color:#3A3D38;text-decoration:none;padding:7px 11px;border-radius:7px" style-hover="background:rgba(46,91,79,0.09);color:#2E5B4F">{{ item.label }}</a>
+    <div class="hdr-right">
+      <nav class="navlinks" aria-label="Sections">
+        <sc-for list="{{ t.nav }}" as="item" hint-placeholder-count="9">
+          <a href="#{{ item.id }}">{{ item.label }}</a>
         </sc-for>
-      </div>
-      <button onClick="{{ toggle }}" style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1px;border:1px solid rgba(0,0,0,0.18);background:transparent;color:#1B1D1A;padding:8px 13px;border-radius:8px;cursor:pointer" style-hover="border-color:#2E5B4F;color:#2E5B4F">{{ t.toggleLabel }}</button>
-      <details class="mobile-nav">
-        <summary aria-label="Menu">☰</summary>
-        <div class="mobile-menu">
-          <sc-for list="{{ t.nav }}" as="item" hint-placeholder-count="8">
-            <a href="#{{ item.id }}" style-hover="background:rgba(46,91,79,0.09);color:#2E5B4F">{{ item.label }}</a>
+      </nav>
+      <button class="btn" onClick="{{ toggle }}">{{ t.toggleLabel }}</button>
+      <details class="menu">
+        <summary aria-label="Menu">
+          <svg class="ic" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </summary>
+        <div class="menu-panel">
+          <sc-for list="{{ t.nav }}" as="item" hint-placeholder-count="9">
+            <a href="#{{ item.id }}">{{ item.label }}</a>
           </sc-for>
         </div>
       </details>
-    </nav>
+    </div>
   </div>
 </header>
 
-<main id="top" style="max-width:1180px;margin:0 auto;padding:0 32px">
+<main id="top">
 
   <!-- HERO -->
-  <section id="about" style="padding:78px 0 64px;display:grid;grid-template-columns:1.35fr 0.85fr;gap:56px;align-items:center">
+  <section id="about" class="wrap hero">
     <div>
-      <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:3px;color:#2E5B4F;text-transform:uppercase;margin-bottom:22px">{{ t.heroKicker }}</div>
-      <h1 style="font-family:Newsreader,serif;font-weight:500;font-size:72px;line-height:0.98;margin:0;letter-spacing:-1px">{{ t.nameEn }}</h1>
-      <div style="font-size:23px;font-weight:500;margin-top:10px;color:#2B2E29">{{ t.nameZh }}</div>
-      <div style="font-size:16px;color:#2E5B4F;font-weight:500;margin-top:14px;letter-spacing:0.3px">{{ t.role }}</div>
-      <p style="font-size:16.5px;line-height:1.75;color:#4A4D47;margin:22px 0 30px;max-width:560px;text-wrap:pretty">{{ t.tagline }}</p>
-      <div style="display:flex;flex-wrap:wrap;gap:10px">
-        <a href="{{ t.mailHref }}" style="display:inline-flex;align-items:center;gap:8px;font-size:14px;text-decoration:none;background:#1B1D1A;color:#F6F5F1;padding:11px 17px;border-radius:9px" style-hover="background:#2E5B4F">✉ {{ t.email }}</a>
+      <h1 class="rise">{{ t.nameLead }}<span class="h1-en">{{ t.nameSub }}</span></h1>
+      <p class="role rise rise-2">{{ t.role }}</p>
+      <p class="tagline rise rise-2">{{ t.tagline }}</p>
+      <div class="contact rise rise-3">
+        <a class="btn btn-solid" href="{{ t.mailHref }}">
+          <svg class="ic" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 7 8.5 6 8.5-6"/></svg>
+          {{ t.email }}
+        </a>
         <sc-for list="{{ t.phones }}" as="p" hint-placeholder-count="2">
-          <span style="display:inline-flex;align-items:center;gap:8px;font-size:14px;background:#fff;border:1px solid rgba(0,0,0,0.09);padding:11px 17px;border-radius:9px;color:#3A3D38">☎ {{ p }}</span>
+          <span class="btn num">
+            <svg class="ic" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3.5h3l1.5 4-2 1.5a12 12 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.5 5.7 2 2 0 0 1 6.5 3.5z"/></svg>
+            {{ p }}
+          </span>
         </sc-for>
-        <span style="display:inline-flex;align-items:center;gap:8px;font-size:14px;background:#fff;border:1px solid rgba(0,0,0,0.09);padding:11px 17px;border-radius:9px;color:#3A3D38">◎ {{ t.location }}</span>
-        <button class="no-print" onClick="{{ printCv }}" style="display:inline-flex;align-items:center;gap:8px;font-size:14px;background:#fff;border:1px solid rgba(46,91,79,0.5);padding:11px 17px;border-radius:9px;color:#2E5B4F;cursor:pointer;font-family:inherit" style-hover="background:#EAEDE6;border-color:#2E5B4F">⭳ {{ t.tPdf }}</button>
+        <span class="btn">
+          <svg class="ic" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.7 7-11a7 7 0 1 0-14 0c0 5.3 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+          {{ t.location }}
+        </span>
+        <button class="btn no-print" onClick="{{ printCv }}">
+          <svg class="ic" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5v11"/><path d="m8 11 4 4 4-4"/><path d="M4.5 18.5h15"/></svg>
+          {{ t.tPdf }}
+        </button>
       </div>
     </div>
-    <div style="display:flex;flex-direction:column;gap:14px">
-      <div style="aspect-ratio:4/5;width:100%;border-radius:16px;overflow:hidden;background:#EAEDE6;border:1px solid rgba(0,0,0,0.07)">
-        <img src="assets/portrait.jpg" alt="{{ t.nameEn }} · {{ t.nameZh }}" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block">
-      </div>
+    <div class="portrait rise rise-4">
+      <img src="assets/portrait.jpg" alt="{{ t.nameLead }} · {{ t.nameSub }}">
     </div>
   </section>
 
-  <!-- STATS -->
-  <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:rgba(0,0,0,0.09);border:1px solid rgba(0,0,0,0.09);border-radius:14px;overflow:hidden;margin-bottom:20px">
-    <sc-for list="{{ t.stats }}" as="s" hint-placeholder-count="5">
-      <div style="background:#F6F5F1;padding:26px 22px">
-        <div style="font-family:Newsreader,serif;font-weight:500;font-size:44px;line-height:1;color:#2E5B4F">{{ s.n }}<span style="font-size:18px;color:#6B6E68;margin-left:3px">{{ s.u }}</span></div>
-        <div style="font-size:13.5px;color:#5A5D57;margin-top:8px">{{ s.l }}</div>
-      </div>
-    </sc-for>
+  <!-- FRONT MATTER -->
+  <section class="wrap">
+    <dl class="fm">
+      <sc-for list="{{ t.stats }}" as="s" hint-placeholder-count="5">
+        <div class="fm-i">
+          <dd class="fm-v num">{{ s.n }}<em>{{ s.u }}</em></dd>
+          <dt class="fm-l">{{ s.l }}</dt>
+        </div>
+      </sc-for>
+    </dl>
   </section>
 
   <!-- SKILLS -->
-  <section id="skills" style="padding:72px 0 20px">
-    <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:34px">
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2E5B4F">01</span>
-      <h2 style="font-family:Newsreader,serif;font-weight:500;font-size:34px;margin:0;letter-spacing:-0.3px">{{ t.tSkills }}</h2>
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#9A9D96;text-transform:uppercase">{{ t.tSkillsEn }}</span>
+  <section id="skills" class="wrap sec">
+    <div class="sec-head">
+      <h2>{{ t.tSkills }} <span class="alt">{{ t.tSkillsEn }}</span></h2>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
-      <sc-for list="{{ t.skills }}" as="sk" hint-placeholder-count="6">
-        <div style="background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:14px;padding:24px 22px 20px">
-          <div style="font-size:17px;font-weight:700;color:#1B1D1A;margin-bottom:9px">{{ sk.name }}</div>
-          <p style="font-size:14px;line-height:1.7;color:#5A5D57;margin:0 0 16px">{{ sk.desc }}</p>
-          <div style="display:flex;flex-wrap:wrap;gap:6px">
+    <div class="grid g-2">
+      <sc-for list="{{ t.skills }}" as="sk" hint-placeholder-count="8">
+        <article class="item">
+          <h3>{{ sk.name }}</h3>
+          <p>{{ sk.desc }}</p>
+          <div class="tags">
             <sc-for list="{{ sk.tags }}" as="tag" hint-placeholder-count="3">
-              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#2E5B4F;background:#EAEDE6;padding:4px 9px;border-radius:6px">{{ tag }}</span>
+              <span class="tag">{{ tag }}</span>
             </sc-for>
           </div>
-        </div>
+        </article>
       </sc-for>
     </div>
-    <div style="margin-top:20px;background:#EAEDE6;border-radius:14px;padding:22px 24px;display:flex;flex-wrap:wrap;align-items:center;gap:18px">
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#2E5B4F;text-transform:uppercase">{{ t.certLabel }}</span>
+    <dl class="certs">
+      <dt>{{ t.certLabel }}</dt>
       <sc-for list="{{ t.certs }}" as="c" hint-placeholder-count="2">
-        <span style="font-size:14px;color:#3A3D38">✓ {{ c }}</span>
+        <dd>
+          <svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4.5 12.5 5 5 10-11"/></svg>
+          <span class="num">{{ c }}</span>
+        </dd>
       </sc-for>
-    </div>
+    </dl>
   </section>
 
   <!-- TIMELINE -->
-  <section id="timeline" style="padding:72px 0 20px">
-    <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:34px">
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2E5B4F">02</span>
-      <h2 style="font-family:Newsreader,serif;font-weight:500;font-size:34px;margin:0;letter-spacing:-0.3px">{{ t.tTimeline }}</h2>
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#9A9D96;text-transform:uppercase">{{ t.tTimelineEn }}</span>
+  <section id="timeline" class="wrap sec">
+    <div class="sec-head">
+      <h2>{{ t.tTimeline }} <span class="alt">{{ t.tTimelineEn }}</span></h2>
     </div>
-    <div style="display:flex;flex-direction:column">
+    <div>
       <sc-for list="{{ t.timeline }}" as="job" hint-placeholder-count="5">
-        <div style="display:grid;grid-template-columns:190px 1fr;gap:32px;padding:26px 0;border-top:1px solid rgba(0,0,0,0.1)">
+        <article class="tl-row">
           <div>
-            <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#1B1D1A;font-weight:500">{{ job.years }}</div>
-            <div style="font-size:12.5px;color:#8A8D86;margin-top:4px">{{ job.dur }}</div>
+            <div class="tl-when num">{{ job.years }}</div>
+            <div class="tl-dur">{{ job.dur }}</div>
           </div>
           <div>
-            <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 14px;margin-bottom:12px">
-              <span style="font-size:19px;font-weight:700">{{ job.org }}</span>
-              <span style="font-size:14px;color:#2E5B4F;font-weight:500">{{ job.role }}</span>
+            <div class="tl-who">
+              <span class="tl-org">{{ job.org }}</span>
+              <span class="tl-role">{{ job.role }}</span>
             </div>
-            <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px">
-              <sc-for list="{{ job.points }}" as="pt" hint-placeholder-count="3">
-                <li style="font-size:14.5px;line-height:1.65;color:#4A4D47">{{ pt }}</li>
+            <ul class="pts">
+              <sc-for list="{{ job.points }}" as="pt" hint-placeholder-count="4">
+                <li>{{ pt }}</li>
               </sc-for>
             </ul>
           </div>
-        </div>
+        </article>
       </sc-for>
     </div>
   </section>
 
   <!-- PROJECTS -->
-  <section id="projects" style="padding:72px 0 20px">
-    <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:34px">
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2E5B4F">03</span>
-      <h2 style="font-family:Newsreader,serif;font-weight:500;font-size:34px;margin:0;letter-spacing:-0.3px">{{ t.tProjects }}</h2>
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#9A9D96;text-transform:uppercase">{{ t.tProjectsEn }}</span>
+  <section id="projects" class="wrap sec">
+    <div class="sec-head">
+      <h2>{{ t.tProjects }} <span class="alt">{{ t.tProjectsEn }}</span></h2>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px">
+    <div class="grid g-3">
       <sc-for list="{{ t.projects }}" as="pr" hint-placeholder-count="3">
-        <div style="background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:14px;padding:26px 24px;border-left:3px solid #2E5B4F">
-          <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:1px;color:#2E5B4F;text-transform:uppercase;background:#EAEDE6;padding:4px 9px;border-radius:6px">{{ pr.badge }}</span>
-          <div style="font-size:18px;font-weight:700;margin:16px 0 9px">{{ pr.title }}</div>
-          <p style="font-size:14.5px;line-height:1.7;color:#5A5D57;margin:0">{{ pr.desc }}</p>
-        </div>
+        <article class="item">
+          <div class="label">{{ pr.badge }}</div>
+          <h3>{{ pr.title }}</h3>
+          <p>{{ pr.desc }}</p>
+        </article>
       </sc-for>
     </div>
   </section>
 
-  <!-- AI / VIBE CODING -->
+  <!-- AI -->
   <sc-if value="{{ showAi }}" hint-placeholder-val="{{ true }}">
-  <section id="ai" style="padding:72px 0 20px">
-    <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:14px">
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2E5B4F">04</span>
-      <h2 style="font-family:Newsreader,serif;font-weight:500;font-size:34px;margin:0;letter-spacing:-0.3px">{{ t.tAi }}</h2>
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#9A9D96;text-transform:uppercase">{{ t.tAiEn }}</span>
-    </div>
-    <p style="font-size:15.5px;line-height:1.75;color:#4A4D47;margin:0 0 30px;max-width:640px">{{ t.aiIntro }}</p>
-    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px">
-      <sc-for list="{{ t.aiTools }}" as="ai" hint-placeholder-count="5">
-        <div style="background:#1B1D1A;color:#EDECE6;border-radius:14px;padding:26px 24px">
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8FB5AA;margin-bottom:12px">{{ ai.tag }}</div>
-          <div style="font-size:18px;font-weight:700;color:#fff;margin-bottom:9px">{{ ai.title }}</div>
-          <p style="font-size:14px;line-height:1.7;color:#B8B9B3;margin:0">{{ ai.desc }}</p>
-        </div>
-      </sc-for>
-    </div>
-    <div style="margin:36px 0 0;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#2E5B4F;text-transform:uppercase">{{ t.tDemo }}</span>
-      <span style="font-size:13px;color:#7A7D76">{{ t.tDemoDesc }}</span>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:18px;margin-top:16px">
-      <sc-for list="{{ t.demo }}" as="d" hint-placeholder-count="5">
-        <figure style="margin:0;background:#fff;border:1px solid rgba(0,0,0,0.09);border-radius:12px;overflow:hidden">
-          <div style="display:flex;align-items:center;gap:6px;padding:9px 12px;background:#EAEDE6;border-bottom:1px solid rgba(0,0,0,0.06)">
-            <span style="width:9px;height:9px;border-radius:50%;background:#E24B4A;display:inline-block"></span>
-            <span style="width:9px;height:9px;border-radius:50%;background:#EF9F27;display:inline-block"></span>
-            <span style="width:9px;height:9px;border-radius:50%;background:#5DCAA5;display:inline-block"></span>
-          </div>
-          <div style="aspect-ratio:16/9;overflow:hidden;background:#F6F5F1">
-            <img src="{{ d.img }}" alt="{{ d.title }}" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block">
-          </div>
-          <figcaption style="padding:13px 15px 15px">
-            <div style="font-size:14.5px;font-weight:700;color:#1B1D1A;margin-bottom:4px">{{ d.title }}</div>
-            <div style="font-size:13px;line-height:1.6;color:#5A5D57">{{ d.desc }}</div>
-          </figcaption>
-        </figure>
-      </sc-for>
+  <section id="ai" class="sec sec-alt">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>{{ t.tAi }} <span class="alt">{{ t.tAiEn }}</span></h2>
+        <p>{{ t.aiIntro }}</p>
+      </div>
+      <div class="grid g-2">
+        <sc-for list="{{ t.aiTools }}" as="ai" hint-placeholder-count="5">
+          <article class="item">
+            <div class="label">{{ ai.tag }}</div>
+            <h3>{{ ai.title }}</h3>
+            <p>{{ ai.desc }}</p>
+          </article>
+        </sc-for>
+      </div>
+      <p class="figs-note"><b>{{ t.tDemo }}</b> — {{ t.tDemoDesc }}</p>
+      <div class="figs">
+        <sc-for list="{{ t.demo }}" as="d" hint-placeholder-count="5">
+          <figure>
+            <div class="fig-img"><img src="{{ d.img }}" alt="{{ d.title }}" loading="lazy"></div>
+            <figcaption>
+              <b>{{ d.title }}</b>
+              <span class="cap">{{ d.desc }}</span>
+            </figcaption>
+          </figure>
+        </sc-for>
+      </div>
     </div>
   </section>
   </sc-if>
 
   <!-- PUBLICATIONS -->
-  <section id="pubs" style="padding:72px 0 20px">
-    <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:14px">
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2E5B4F">05</span>
-      <h2 style="font-family:Newsreader,serif;font-weight:500;font-size:34px;margin:0;letter-spacing:-0.3px">{{ t.tPubs }}</h2>
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#9A9D96;text-transform:uppercase">{{ t.tPubsEn }}</span>
+  <section id="pubs" class="wrap sec">
+    <div class="sec-head">
+      <h2>{{ t.tPubs }} <span class="alt">{{ t.tPubsEn }}</span></h2>
+      <p>{{ t.pubsIntro }}</p>
     </div>
-    <p style="font-size:15.5px;line-height:1.75;color:#4A4D47;margin:0 0 26px;max-width:640px">{{ t.pubsIntro }}</p>
-    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:34px">
+    <div class="themes">
       <sc-for list="{{ t.themes }}" as="th" hint-placeholder-count="2">
-        <div style="background:#EAEDE6;border-radius:14px;padding:24px 24px">
-          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:8px">
-            <span style="font-size:17px;font-weight:700;color:#1B1D1A">{{ th.title }}</span>
-            <span style="font-family:Newsreader,serif;font-size:30px;font-weight:500;color:#2E5B4F;line-height:1">{{ th.count }}</span>
+        <article class="theme">
+          <div class="theme-top">
+            <b>{{ th.title }}</b>
+            <span class="theme-n num">{{ th.count }}</span>
           </div>
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6B6E68;margin-bottom:10px">{{ th.period }}</div>
-          <p style="font-size:14px;line-height:1.7;color:#4A4D47;margin:0">{{ th.desc }}</p>
-        </div>
+          <div class="theme-when num">{{ th.period }}</div>
+          <p>{{ th.desc }}</p>
+        </article>
       </sc-for>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px">
-      <sc-for list="{{ t.pubs }}" as="pub" hint-placeholder-count="8">
-        <div style="background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:14px;padding:22px 22px;display:flex;flex-direction:column">
-          <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:9px">
-            <span style="font-family:Newsreader,serif;font-size:22px;color:#B0B3AC;line-height:1;flex:none">{{ pub.i }}</span>
-            <span style="font-size:15px;font-weight:600;line-height:1.5;color:#1B1D1A">{{ pub.summary }}</span>
+    <ol class="refs">
+      <sc-for list="{{ t.pubs }}" as="pub" hint-placeholder-count="17">
+        <li class="ref">
+          <div class="ref-n num">{{ pub.i }}</div>
+          <div>
+            <div class="ref-t">{{ pub.summary }}</div>
+            <div class="ref-c num">{{ pub.cite }}</div>
+            <div class="ref-links">
+              <a class="lnk" style="font-size:12.5px" href="https://doi.org/{{ pub.doi }}" target="_blank" rel="noopener">{{ t.tSource }}</a>
+              <sc-if value="{{ pub.abstract }}">
+                <details>
+                  <summary>
+                    <svg class="ic" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
+                    {{ t.tAbstract }}
+                  </summary>
+                  <p>{{ pub.abstract }}</p>
+                </details>
+              </sc-if>
+            </div>
           </div>
-          <div style="font-size:12.5px;color:#7A7D76;line-height:1.55">{{ pub.cite }}</div>
-          <a href="https://doi.org/{{ pub.doi }}" target="_blank" rel="noopener" style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.5px;color:#2E5B4F;text-decoration:none;margin-top:9px;align-self:flex-start" style-hover="color:#1B1D1A">{{ t.tSource }} ↗</a>
-          <sc-if value="{{ pub.abstract }}">
-            <details style="margin-top:13px;border-top:1px solid rgba(0,0,0,0.07);padding-top:11px">
-              <summary style="cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#2E5B4F;text-transform:uppercase">{{ t.tAbstract }}</summary>
-              <p style="font-size:13px;line-height:1.75;color:#4A4D47;margin:11px 0 0">{{ pub.abstract }}</p>
-            </details>
-          </sc-if>
-        </div>
+        </li>
       </sc-for>
-    </div>
+    </ol>
   </section>
 
   <!-- PATENTS -->
-  <section id="patents" style="padding:72px 0 20px">
-    <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:14px">
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2E5B4F">06</span>
-      <h2 style="font-family:Newsreader,serif;font-weight:500;font-size:34px;margin:0;letter-spacing:-0.3px">{{ t.tPatents }}</h2>
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#9A9D96;text-transform:uppercase">{{ t.tPatentsEn }}</span>
+  <section id="patents" class="wrap sec">
+    <div class="sec-head">
+      <h2>{{ t.tPatents }} <span class="alt">{{ t.tPatentsEn }}</span></h2>
+      <p>{{ t.patentsIntro }}</p>
     </div>
-    <p style="font-size:15.5px;line-height:1.75;color:#4A4D47;margin:0 0 26px;max-width:660px">{{ t.patentsIntro }}</p>
-    <div style="display:flex;flex-direction:column">
-      <sc-for list="{{ t.patents }}" as="pt" hint-placeholder-count="10">
-        <div style="display:grid;grid-template-columns:118px 1fr;gap:20px;padding:16px 0;border-top:1px solid rgba(0,0,0,0.09)">
-          <div>
-            <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2E5B4F;font-weight:500">{{ pt.no }}</div>
-            <div style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#9A9D96;margin-top:4px">{{ pt.date }}</div>
-          </div>
-          <div style="font-size:15px;line-height:1.6;color:#1B1D1A">{{ pt.title }}</div>
-        </div>
-      </sc-for>
-    </div>
+    <table class="pat">
+      <thead>
+        <tr><th>No.</th><th>Date</th><th>Title</th></tr>
+      </thead>
+      <tbody>
+        <sc-for list="{{ t.patents }}" as="pt" hint-placeholder-count="10">
+          <tr>
+            <td class="num">{{ pt.no }}</td>
+            <td class="num">{{ pt.date }}</td>
+            <td>{{ pt.title }}</td>
+          </tr>
+        </sc-for>
+      </tbody>
+    </table>
   </section>
 
   <!-- EDUCATION -->
-  <section id="education" style="padding:72px 0 20px">
-    <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:34px">
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#2E5B4F">07</span>
-      <h2 style="font-family:Newsreader,serif;font-weight:500;font-size:34px;margin:0;letter-spacing:-0.3px">{{ t.tEdu }}</h2>
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#9A9D96;text-transform:uppercase">{{ t.tEduEn }}</span>
+  <section id="education" class="wrap sec">
+    <div class="sec-head">
+      <h2>{{ t.tEdu }} <span class="alt">{{ t.tEduEn }}</span></h2>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
-      <sc-for list="{{ t.education }}" as="ed" hint-placeholder-count="3">
-        <div style="background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:14px;padding:24px 22px">
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#2E5B4F;margin-bottom:10px">{{ ed.degree }}</div>
-          <div style="font-size:17px;font-weight:700;line-height:1.4">{{ ed.school }}</div>
-          <div style="font-size:14px;color:#5A5D57;margin-top:6px">{{ ed.field }}</div>
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#9A9D96;margin-top:12px">{{ ed.year }}</div>
-        </div>
+    <div class="grid g-2">
+      <sc-for list="{{ t.education }}" as="ed" hint-placeholder-count="2">
+        <article class="item">
+          <div class="label">{{ ed.degree }}</div>
+          <h3>{{ ed.school }}</h3>
+          <p>{{ ed.field }}</p>
+          <p class="idx num">{{ ed.year }}</p>
+        </article>
       </sc-for>
     </div>
   </section>
 
-  <!-- VALUE -->
-  <section id="value" style="padding:72px 0 40px">
-    <div style="background:#1B1D1A;border-radius:20px;padding:52px 48px;color:#EDECE6">
-      <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:30px">
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#8FB5AA">08</span>
-        <h2 style="font-family:Newsreader,serif;font-weight:500;font-size:34px;margin:0;color:#fff;letter-spacing:-0.3px">{{ t.tValue }}</h2>
-      </div>
-      <p style="font-size:17px;line-height:1.7;color:#C9CAC4;margin:0 0 34px;max-width:660px">{{ t.valueIntro }}</p>
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:28px 40px">
-        <sc-for list="{{ t.contributions }}" as="v" hint-placeholder-count="4">
-          <div style="display:flex;gap:16px;align-items:flex-start">
-            <span style="font-family:Newsreader,serif;font-size:26px;color:#8FB5AA;line-height:1;flex:none">{{ v.n }}</span>
-            <div>
-              <div style="font-size:17px;font-weight:700;color:#fff;margin-bottom:7px">{{ v.title }}</div>
-              <p style="font-size:14.5px;line-height:1.7;color:#B8B9B3;margin:0">{{ v.desc }}</p>
-            </div>
-          </div>
-        </sc-for>
-      </div>
+  <!-- ROLES -->
+  <section id="value" class="wrap sec">
+    <div class="sec-head">
+      <h2>{{ t.tValue }}</h2>
+      <p>{{ t.valueIntro }}</p>
+    </div>
+    <div class="grid g-2 roles">
+      <sc-for list="{{ t.contributions }}" as="v" hint-placeholder-count="4">
+        <article class="item">
+          <div class="idx num">{{ v.n }}</div>
+          <h3>{{ v.title }}</h3>
+          <p>{{ v.desc }}</p>
+        </article>
+      </sc-for>
     </div>
   </section>
 
+  <footer class="ftr">
+    <div class="wrap ftr-in">
+      <div>
+        <b>{{ t.nameLead }} · {{ t.nameSub }}</b>
+        <p>{{ t.role }}</p>
+      </div>
+      <div class="ftr-c">
+        <a class="lnk" href="{{ t.mailHref }}">{{ t.email }}</a>
+        <sc-for list="{{ t.phones }}" as="p" hint-placeholder-count="2">
+          <span class="num">{{ p }}</span>
+        </sc-for>
+      </div>
+    </div>
+  </footer>
+
 </main>
-
-<footer style="border-top:1px solid rgba(0,0,0,0.09);margin-top:20px">
-  <div style="max-width:1180px;margin:0 auto;padding:36px 32px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;align-items:center">
-    <div>
-      <div style="font-family:Newsreader,serif;font-size:20px;font-weight:600">{{ t.nameEn }} · {{ t.nameZh }}</div>
-      <div style="font-size:13px;color:#7A7D76;margin-top:5px">{{ t.role }}</div>
-    </div>
-    <div style="display:flex;flex-wrap:wrap;gap:22px;font-size:14px;color:#4A4D47">
-      <a href="{{ t.mailHref }}" style="text-decoration:none;color:#4A4D47" style-hover="color:#2E5B4F">{{ t.email }}</a>
-      <span>{{ t.phones.0 }}</span>
-    </div>
-  </div>
-</footer>
-
-</div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1180,&quot;height&quot;:760},&quot;defaultLang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;zh&quot;,&quot;en&quot;],&quot;default&quot;:&quot;zh&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;顯示設定&quot;},&quot;showAiSection&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;顯示設定&quot;},&quot;showPhones&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;顯示設定&quot;}}">
 const DATA = {
@@ -658,7 +932,13 @@ class Component extends DCLogic {
     const lang = this.state.lang || this.props.defaultLang || "zh";
     const base = DATA[lang];
     const showPhones = this.props.showPhones !== false;
-    const t = { ...base, phones: showPhones ? base.phones : [] };
+    const t = {
+      ...base,
+      phones: showPhones ? base.phones : [],
+      // lead with the name in the language being read; both strings already exist in DATA
+      nameLead: lang === "zh" ? base.nameZh : base.nameEn,
+      nameSub: lang === "zh" ? base.nameEn : base.nameZh
+    };
     return {
       t,
       lang,
