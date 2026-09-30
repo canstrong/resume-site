@@ -202,6 +202,11 @@ a.lnk:hover{color:var(--accent-2);text-decoration-color:currentColor}
 .tl-who{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px}
 .tl-org{font-size:var(--fs-h3);font-weight:600;letter-spacing:-0.01em}
 .tl-role{font-size:var(--fs-sm);color:var(--accent);font-weight:500}
+.tl-phases{display:flex;flex-wrap:wrap;align-items:baseline;row-gap:4px;margin-top:8px;font-size:var(--fs-xs);line-height:1.5}
+.tl-phases li{display:inline-flex;align-items:baseline;gap:5px}
+.tl-phases li+li::before{content:"→";color:var(--ink-3);margin:0 4px 0 7px}
+.tl-phases b{font-weight:500;color:var(--ink-2)}
+.tl-phases em{font-style:normal;color:var(--ink-3)}
 .pts{margin-top:var(--sp-3);display:flex;flex-direction:column;gap:7px}
 .pts li{position:relative;padding-left:16px;font-size:var(--fs-sm);color:var(--ink-2);line-height:1.7}
 .pts li::before{content:"";position:absolute;left:1px;top:.72em;width:5px;height:1px;background:var(--rule-2)}
@@ -440,6 +445,13 @@ figcaption .cap{display:block;margin-top:3px;font-size:var(--fs-xs);color:var(--
               <span class="tl-org">{{ job.org }}</span>
               <span class="tl-role">{{ job.role }}</span>
             </div>
+            <sc-if value="{{ job.phases }}">
+              <ol class="tl-phases">
+                <sc-for list="{{ job.phases }}" as="ph" hint-placeholder-count="3">
+                  <li><b>{{ ph.name }}</b><em class="num">{{ ph.dur }}</em></li>
+                </sc-for>
+              </ol>
+            </sc-if>
             <ul class="pts">
               <sc-for list="{{ job.points }}" as="pt" hint-placeholder-count="4">
                 <li>{{ pt }}</li>
@@ -653,7 +665,7 @@ const DATA = {
     ],
     tSkills: "核心技能", tSkillsEn: "Core Skills",
     skills: [
-      { name: "實驗室與品質系統管理", desc: "維護檢驗實驗室的 ISO 17025 認證，包括品質系統文件撰寫、日常維持與稽核應對。", tags: ["ISO 17025", "CNAS-CL01", "TAF 認證"] },
+      { name: "實驗室與品質系統管理", desc: "維護檢驗實驗室的 ISO 17025 認證，包括品質系統文件撰寫、認證增項、檢驗方法確效與稽核應對。", tags: ["ISO 17025", "CNAS-CL01", "TAF 認證"] },
       { name: "法規事務與國際申請", desc: "主導食品原料上市法規申請，橫跨美國與中國兩地市場。", tags: ["FDA GRAS", "NDIN", "NSF", "中國新食品原料"] },
       { name: "分子生物與微生物鑑定", desc: "菌株鑑定、全基因體分析與結果判讀。", tags: ["qPCR", "digital PCR", "NGS 定序", "PFGE"] },
       { name: "益生菌研發與功效驗證", desc: "菌株安全性、功效性評估與臨床試驗計畫設計及執行。", tags: ["菌株鑑定", "安全性評估", "臨床試驗"] },
@@ -663,10 +675,10 @@ const DATA = {
       { name: "行銷與數位官網", desc: "理解品牌與產品行銷需求，規劃並建置官方網站，執行 SEO 與成效優化，把科學內容改寫成對外溝通用的素材。", tags: ["官網建置", "SEO 優化", "內容行銷", "GitHub Pages"] }
     ],
     certLabel: "專業證照",
-    certs: ["ISO 17025 TAF-QM107059-C-39", "TAF 測試實驗室主管訓練合格 TAF-TH107011-C-04"],
+    certs: ["ISO/IEC 17025 實驗室認證規範訓練合格 TAF-QM107059-C-39", "測試實驗室主管訓練合格 TAF-TH107011-C-04"],
     tTimeline: "職涯歷程", tTimelineEn: "Experience",
     timeline: [
-      { years: "2017/07 – 現在", dur: "9 年", org: "豐華生技", role: "研發副理 / 行銷副理 / 行銷部經理", points: [
+      { years: "2017/07 – 現在", dur: "9 年", org: "豐華生技", role: "研發副理 / 行銷副理 / 行銷部經理", phases: [{ name: "大陸檢驗實驗室", dur: "3 年" }, { name: "台灣研發", dur: "3.5 年" }, { name: "台灣產品行銷", dur: "2.5 年" }], points: [
         "FDA GRAS / NDIN 申請專案負責人，完成 GRN No.1130、No.1235。",
         "主導中國新食品原料與嬰幼兒可使用菌株名單申請、NSF 產品認證。",
         "菌株全基因定序資料分析、益生菌功效研發與臨床試驗計畫書撰寫。",
@@ -680,7 +692,7 @@ const DATA = {
         "TFDA 乳酸菌鑑定、新北市 GMO 檢驗、農試所食媒分子檢驗等標案。",
         "熟悉抗菌 / 防腐 / 無菌試驗與 digital PCR 基改定量。"
       ] },
-      { years: "2012/09 – 2013/05", dur: "9 個月", org: "有勁生技", role: "業務", points: [
+      { years: "2012/09 – 2013/05", dur: "9 個月", org: "有勁生技", role: "NGS 業務", points: [
         "全基因定序相關服務之推廣與結果解說。",
         "客戶訂單管理與進度追蹤。"
       ] },
@@ -768,7 +780,7 @@ const DATA = {
     valueIntro: "實驗室、研發、法規、行銷都實際做過。以下四類工作我可以直接接手。",
     contributions: [
       { n: "01", title: "專案管理與進度追蹤", desc: "FDA GRAS 申請的專案負責人，完成 GRN No.1130、No.1235 兩案。實驗數據、文獻整理與送審文件要同時推進，任一環節落後整案就卡住，所以時程與缺件我都自己盯。" },
-      { n: "02", title: "實驗室認證維護", desc: "ISO 17025 實務檢驗執行經驗，已取得 TAF 認證證書並通過 TAF 測試實驗室主管訓練。認證維護、相關文件撰寫與稽核應對都實際做過。" },
+      { n: "02", title: "實驗室認證維護", desc: "ISO 17025 實務檢驗執行經驗，完成 TAF 的 ISO/IEC 17025 實驗室認證規範訓練與測試實驗室主管訓練。負責認證維護、增項與流程改善，也做報告審核、國家與國際檢驗方法確效，以及國外廠商與稽核單位的對應。" },
       { n: "03", title: "微生物與分生研發", desc: "長年微生物與分子生物研發經驗，參與發表多篇研究、撰寫專利，並負責臨床試驗計畫的撰寫與執行。" },
       { n: "04", title: "AI 自學與應用", desc: "自學 AI 與 vibe coding 並導入日常工作。內部文件系統、會議轉錄工具與專案管理系統都是自己做的。" }
     ]
@@ -808,7 +820,7 @@ const DATA = {
     ],
     tSkills: "Core Skills", tSkillsEn: "核心技能",
     skills: [
-      { name: "Lab & Quality System Management", desc: "Maintaining ISO 17025 accreditation in testing labs, including quality-system documentation, day-to-day upkeep and audit response.", tags: ["ISO 17025", "CNAS-CL01", "TAF"] },
+      { name: "Lab & Quality System Management", desc: "Maintaining ISO 17025 accreditation in testing labs, including quality-system documentation, scope extensions, test-method validation and audit response.", tags: ["ISO 17025", "CNAS-CL01", "TAF"] },
       { name: "Regulatory Affairs", desc: "Leading food-ingredient market-entry filings across both the US and China.", tags: ["FDA GRAS", "NDIN", "NSF", "China Novel Food"] },
       { name: "Molecular & Microbial ID", desc: "Strain identification, whole-genome analysis and interpretation of the results.", tags: ["qPCR", "digital PCR", "NGS", "PFGE"] },
       { name: "Probiotic R&D & Efficacy", desc: "Strain safety, efficacy assessment and clinical-trial protocol design and execution.", tags: ["Strain ID", "Safety", "Clinical trials"] },
@@ -818,10 +830,10 @@ const DATA = {
       { name: "Marketing & Web", desc: "Understand brand and product marketing needs; plan and build corporate websites with SEO and performance optimization, and rewrite scientific content for an outside audience.", tags: ["Website build", "SEO", "Content marketing", "GitHub Pages"] }
     ],
     certLabel: "Certifications",
-    certs: ["ISO 17025 TAF-QM107059-C-39", "TAF Testing Lab Supervisor Training TAF-TH107011-C-04"],
+    certs: ["ISO/IEC 17025 Laboratory Accreditation Requirements Training TAF-QM107059-C-39", "Training for Head of Testing Laboratory TAF-TH107011-C-04"],
     tTimeline: "Experience", tTimelineEn: "職涯歷程",
     timeline: [
-      { years: "2017/07 – Present", dur: "9 yrs", org: "GenMont Biotech", role: "R&D Deputy Manager / Marketing Deputy Manager / Marketing Department Manager", points: [
+      { years: "2017/07 – Present", dur: "9 yrs", org: "GenMont Biotech", role: "R&D Deputy Manager / Marketing Deputy Manager / Marketing Department Manager", phases: [{ name: "China testing lab", dur: "3 yrs" }, { name: "Taiwan R&D", dur: "3.5 yrs" }, { name: "Taiwan product marketing", dur: "2.5 yrs" }], points: [
         "Lead for FDA GRAS / NDIN filings; completed GRN No.1130 and No.1235.",
         "Drove China novel-food & infant-use strain listings and NSF product certification.",
         "Whole-genome data analysis, probiotic efficacy R&D and clinical-protocol writing.",
@@ -835,7 +847,7 @@ const DATA = {
         "Government tenders: TFDA lactic-acid-bacteria ID, GMO testing, foodborne molecular testing.",
         "Antimicrobial / preservative / sterility testing and digital-PCR GMO quantification."
       ] },
-      { years: "2012/09 – 2013/05", dur: "9 mos", org: "Yourgene Biotech", role: "Sales", points: [
+      { years: "2012/09 – 2013/05", dur: "9 mos", org: "Yourgene Biotech", role: "NGS Sales", points: [
         "Promotion and result interpretation for whole-genome sequencing services.",
         "Customer order management and tracking."
       ] },
@@ -923,7 +935,7 @@ const DATA = {
     valueIntro: "I have actually worked the lab, R&D, regulatory and marketing sides of this industry. I can pick up any of these four directly.",
     contributions: [
       { n: "01", title: "Project Management & Tracking", desc: "Project lead for the FDA GRAS filings, completing GRN No.1130 and No.1235. Lab data, literature review and submission documents all have to move in parallel; if one slips, the whole filing stalls, so I track the schedule and open items myself." },
-      { n: "02", title: "Accreditation Maintenance", desc: "Hands-on ISO 17025 testing experience, holding a TAF accreditation certificate and having completed TAF testing-lab supervisor training. I handle accreditation maintenance, the documentation it requires, and audit response myself." },
+      { n: "02", title: "Accreditation Maintenance", desc: "Hands-on ISO 17025 testing experience; completed TAF's ISO/IEC 17025 Laboratory Accreditation Requirements Training and Training for Head of Testing Laboratory. I handle accreditation maintenance, scope extensions and process improvement, plus report review, validation of national and international test methods, and liaison with overseas vendors and auditors." },
       { n: "03", title: "Microbiology & Molecular R&D", desc: "Years of microbiology and molecular biology R&D: co-authoring published research, drafting patents, and writing and running clinical trial protocols." },
       { n: "04", title: "Self-Taught AI Adoption", desc: "Self-taught AI and vibe coding, brought into daily work. The internal document system, meeting transcription tool and project management system are all ones I built." }
     ]
